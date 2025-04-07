@@ -28,7 +28,7 @@ SiteID <- "KOVA" #*UPDATE*
 data.dir <- "E:/NCAR_AK/met/monthly/BCSD/" #*UPDATE* drive letter, if needed
 vic.dir <- "E:/NCAR_AK/vic_hydro/monthly/BCSD" #*UPDATE* drive letter, if needed
 # plot.dir <- paste0("C:/Users/arunyon/3D Objects/Local-files/RCF_Testing/",SiteID) #*UPDATE*
-plot.dir <- paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) #*UPDATE*
+plot.dir <- paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
 
 dir.create(plot.dir,showWarnings=FALSE)
 
