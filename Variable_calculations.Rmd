@@ -1,0 +1,103 @@
+---
+title: "Calculate variables"
+author: "Amber Runyon"
+date: "7/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Initials
+0. Run after CF-selection.Rmd and selection of CFs
+1. Change the initials with area name and CFs selected
+2. 
+
+```{r Initials, echo=FALSE, message=FALSE, warning=FALSE}
+
+rm(list = ls())
+
+SiteID <- "KOVA" #*UPDATE*
+
+library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(units)
+
+met.dir <- "D:/NCAR_AK/met" #*UPDATE* drive letter, if needed
+vic.dir <- "D:/NCAR_AK/vic_hydro" #*UPDATE* drive letter, if needed
+
+# working.dir <- paste0("C:/Users/arunyon/3D Objects/Local-files/RCF_Testing/",SiteID) #*UPDATE*
+working.dir <- paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/",SiteID) #*UPDATE*
+
+data.dir <- paste(working.dir, "Data", sep="/")
+
+historical.period <- as.character(seq(1950,1999,1))
+future.period <- as.character(seq(2035,2065,1))
+daymet.period <- as.character(seq(1980,2016,1))
+
+GCMs <- c("MRI-CGCM3.rcp45","CCSM4.rcp85")
+CFs <- c("Climate Future 1", "Climate Future 2")
+cols <- c("#6EB2D4","#CA0020")
+
+CF_GCM <- data.frame(CF=CFs,GCM=GCMs,CF_col=cols)
+
+
+```
+
+## Load Spatial Data
+
+```{r Load spatial data}
+
+# Spatial
+nps_boundary <- st_read('./Data/nps_boundary/nps_boundary.shp')
+park <- filter(nps_boundary, UNIT_CODE == SiteID)
+shp <- st_transform(park, 3338)
+
+# huc <- st_read("C:/Users/arunyon/OneDrive - DOI/Documents/GIS/AK_HUC8/Kachemak_Tuxedni.shp")
+# shp <- st_transform(huc, 3338)
+
+```
+
+## Met monthly parse and variable creation
+Loop through met GCM.rcp and summarize each variable
+
+```{r Create met monthly variables, results=hide, eval=TRUE}
+memory.limit(size = 60000)
+
+source(here::here("Code", "Metric-development", "met","met-monthly-stars.R"),echo = FALSE) 
+source(here::here("Code", "Metric-development", "met","met-monthly-variables.R"),echo = FALSE)
+
+source(here::here("Code", "Metric-development", "met","Annual.tmeanF.R"),echo = FALSE) 
+source(here::here("Code", "Metric-development", "met","Annual.precipIn.R"),echo = FALSE) 
+
+```
+
+## Vic monthly parse and variable creation
+
+```{r Create vic monthly variables, results=hide, eval=TRUE}
+memory.limit(size = 60000)
+
+source(here::here("Code", "Metric-development", "vic","vic-monthly-stars.R"),echo = FALSE) 
+
+source(here::here("Code", "Metric-development", "vic","max.SWE.R"),echo = FALSE) 
+source(here::here("Code", "Metric-development", "vic","MAMSON.SWE.R"),echo = FALSE) 
+source(here::here("Code", "Metric-development", "vic","water.balance.R"),echo = FALSE)
+source(here::here("Code", "Metric-development", "vic","SWE.precip.R"),echo = FALSE)
+source(here::here("Code", "Metric-development", "vic","soil.temp.R"),echo = FALSE)
+
+
+```
+
+## Daily variable creation
+
+```{r Create daily variables, results=hide, eval=TRUE}
+gc()
+memory.limit(60000)
+source(here::here("Code", "Metric-development", "met","met-daily-stars_by_year.R"),echo = FALSE) #Takes ~1 hrs to run
+source(here::here("Code", "Metric-development", "vic","SWE-runoff-Pr99.R"),echo = FALSE)
+# source(here::here("Code", "Metric-development", "met","Pr99v2.R"),echo = FALSE)
+
+# source(here::here("Code", "Metric-development","daily-all-geographies.R"),echo = FALSE,eval=FALSE)
+
+```
+
