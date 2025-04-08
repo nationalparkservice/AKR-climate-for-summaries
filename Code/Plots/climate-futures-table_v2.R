@@ -164,10 +164,6 @@ report.output <- left_join(report.output,swe.delta,by="CF")
 write.csv(report.output,paste0(data.dir,"/","CF_summary_output.csv"))
 
 
-
-
-
 rm(annual.final, combined, daily.met, daily.met.avg, daily.met.final, data_list, 
    merged, merged_transpose, merged_transpose_deltas, monthly.met, monthly.met.filter, 
    monthly.met.final, delta.CF1, delta.CF2, file_list,  model.scenario, rownames)
-
