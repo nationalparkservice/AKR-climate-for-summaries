@@ -190,10 +190,11 @@ for (G in 1:length(GCMs)){
     # 
     # 
 
-  rm(hist_var, fut_var, hist_var_stars, fut_var_stars, sum_hist, sum_fut, delta,mean_hist,mean_fut)
+  rm(hist_var, fut_var, hist_var_stars, fut_var_stars, sum_hist, sum_fut, mean_hist,mean_fut)
   gc()
   }
 }
+#delta, - removed from rm() because we commented them all out
 
 ###############################
 ##### Daymet data
