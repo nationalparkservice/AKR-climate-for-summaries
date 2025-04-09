@@ -43,22 +43,34 @@ ggplot(data=data, aes(x=Year, y=eval(parse(text=var)), group=CF, colour = CF)) +
 
 # Individual variable ts plots
 freeze.thaw = ts.plot(data=df,var="freeze.thaw",title=long.names[1])
-ggsave(paste0("ts-stack-freeze-thaw.png"), plot = freeze.thaw, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig <- annotate_figure(freeze.thaw, top = text_grob("Freeze-thaw cycles per year",
+                                          face = "bold", size = 22))
+ggsave(paste0("ts-stack-freeze-thaw.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 under32 = ts.plot(data=df,var="under32",title=long.names[2])
-ggsave(paste0("ts-stack-under32.png"), plot = under32, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig <- annotate_figure(under32, top = text_grob("Days per year minimum temperature below 32 (°F)",
+                                                            face = "bold", size = 22))
+ggsave(paste0("ts-stack-under32.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 over20 = ts.plot(data=df,var="over20",title=long.names[3])
-ggsave(paste0("ts-stack-over20.png"), plot = over20, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig <- annotate_figure(over20, top = text_grob("Days per year maximum temperature above 68 (°F)",
+                                                    face = "bold", size = 22))
+ggsave(paste0("ts-stack-over20.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 W.under32 = ts.plot(data=df,var="W.under32",title=long.names[4])
-ggsave(paste0("ts-stack-W-under32.png"), plot = W.under32, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig <- annotate_figure(W.under32, top = text_grob("Days per year maximum temperature above 32 (°F)",
+                                                    face = "bold", size = 22))
+ggsave(paste0("ts-stack-W-under32.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 pcp.over.5 = ts.plot(data=df,var="pcp.over.5",title=long.names[5])
-ggsave(paste0("ts-stack-pcp-over-5.png"), plot = pcp.over.5, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig <- annotate_figure(pcp.over.5, top = text_grob("Days per year precipitation > 0.5 inches",
+                                                    face = "bold", size = 22))
+ggsave(paste0("ts-stack-pcp-over-5.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 gdd = ts.plot(data=df,var="GDD",title=long.names[6])
-ggsave(paste0("ts-stack-gdd.png"), plot = gdd, width = 10, height = 5, path = plot.dir, bg = "white")
+annotated.fig<- annotate_figure(gdd, top = text_grob("Cumulative growing degrees (°F)",
+                                                    face = "bold", size = 22))
+ggsave(paste0("ts-stack-gdd.png"), plot = annotated.fig, width = 10, height = 5, path = plot.dir, bg = "white")
 
 
 #### Create grids for plot arrangement
