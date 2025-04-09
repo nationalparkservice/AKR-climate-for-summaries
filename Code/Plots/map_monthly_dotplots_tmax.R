@@ -116,10 +116,10 @@ dotplot
 
 g <- grid.arrange(maps, dotplot, ncol = 2, widths = c(6, 4), clip = FALSE)
 
-annotate_figure(g, top = text_grob(paste0("Change in seasonal ", long.title, "; 1950-1999 vs 2025-2055"), 
+ann <- annotate_figure(g, top = text_grob(paste0("Change in seasonal ", long.title, "; 1950-1999 vs 2025-2055"), 
                                       face = "bold", size = 20))
 
-ggsave(paste0("seasonal_",var,".png"), plot = g, width = 15, height = 9, path = plot.dir,bg="white")
+ggsave(paste0("seasonal_",var,".png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
 
 
 ################################### MONTHLY BAR CHART ##################
@@ -145,10 +145,10 @@ barchart <- ggplot(df.fut[-c(9:12),], aes(x=season,y=(eval(parse(text=delta.var)
   scale_fill_manual(name="",values = cols) #+
 barchart
 
-annotate_figure(barchart, top = text_grob(paste0("Seasonal ",long.title, "; 1979-2016 vs 2035-2065"),
+ann <- annotate_figure(barchart, top = text_grob(paste0("Seasonal ",long.title, "; 1979-2016 vs 2035-2065"),
                                           face = "bold", size = 22))
 
-ggsave(paste0("seasonal_",var,"_bar.png"), plot = barchart, width = 15, height = 9, path = plot.dir,bg="white")
+ggsave(paste0("seasonal_",var,"_bar.png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
 
 ## With historical data
 
@@ -169,7 +169,7 @@ barchart <- ggplot(df.fut, aes(x=factor(season, levels = c('DJF', 'MAM', 'JJA', 
   scale_fill_manual(values = c("Historical" = "grey", "Climate Future 1" = "#6EB2D4", "Climate Future 2" = "#CA0020"))
 barchart
 
-annotate_figure(barchart, top = text_grob(paste0("Seasonal ",long.title),
+ann <- annotate_figure(barchart, top = text_grob(paste0("Seasonal ",long.title),
                                           face = "bold", size = 22))
 
-ggsave(paste0("seasonal_",var,"_bar_historical.png"), plot = barchart, width = 15, height = 9, path = plot.dir,bg="white")
+ggsave(paste0("seasonal_",var,"_bar_historical.png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
