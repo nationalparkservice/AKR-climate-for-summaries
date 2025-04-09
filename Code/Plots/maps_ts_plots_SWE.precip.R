@@ -87,6 +87,9 @@ ts <- ggplot(df, aes(x=Year, y=(eval(parse(text=var))), group=CF, colour = CF)) 
   scale_shape_manual(name="",values = c(21,22,23, 24))
   # coord_fixed(ratio = ratio) 
 ts
+Capitalized.title <- firstup(long.title)
+ts <- annotate_figure(ts, top = text_grob(Capitalized.title,
+                                          face = "bold", size = 22))
 
 ggsave(paste0(var,"_ANN_ts.png"), plot = ts, width = 15, height = 7, scale = 1, path = plot.dir,bg="white")
 
