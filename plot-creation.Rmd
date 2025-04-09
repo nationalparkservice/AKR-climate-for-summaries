@@ -103,6 +103,12 @@ source(here::here("Code", "Plots", "map_monthly_dotplots_pcp.R"),echo = FALSE)
 
 ```{r annual map-timeseries plots, include=FALSE, results=hide, eval=TRUE}
 dir = paste0(data.dir)
+
+firstup <- function(x) { # Capitalizes first letter of a string - used in ts plots
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
 source(here::here("Code", "Plots", "maps_ts_plots_tmean.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_pcp.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_water.balance.R"),echo = FALSE)
