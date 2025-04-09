@@ -161,6 +161,21 @@ swe.delta <- swe.aggregate %>%
   filter(CF != "Historical") 
 
 report.output <- left_join(report.output,swe.delta,by="CF")
+
+#Soil delta
+soil.data <- read.csv(paste0(data.dir,"/soil.temp_ANN.csv")) |> 
+  left_join(CF_GCM[,1:2]) |> 
+  mutate(across(CF, ~ replace(.x, is.na(.x), "Historical")))
+  
+
+soil.aggregate <- aggregate(soil.temp~CF,soil.data,mean)
+write.csv(soil.aggregate,paste0(data.dir,"/","soil.means.csv"))
+
+soil.delta <- soil.aggregate %>%
+  mutate(across(-CF, ~ . - soil.aggregate[soil.aggregate$CF == "Historical", ][[cur_column()]])) |> 
+  filter(CF != "Historical") 
+report.output <- left_join(report.output,soil.delta,by="CF")
+
 write.csv(report.output,paste0(data.dir,"/","CF_summary_output.csv"))
 
 
