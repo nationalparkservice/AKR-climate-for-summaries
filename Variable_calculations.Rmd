@@ -23,11 +23,11 @@ SiteID <- "KOVA" #*UPDATE*
 
 library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(units)
 
-met.dir <- "D:/NCAR_AK/met" #*UPDATE* drive letter, if needed
-vic.dir <- "D:/NCAR_AK/vic_hydro" #*UPDATE* drive letter, if needed
+met.dir <- "E:/NCAR_AK/met" #*UPDATE* drive letter, if needed
+vic.dir <- "E:/NCAR_AK/vic_hydro" #*UPDATE* drive letter, if needed
 
 # working.dir <- paste0("C:/Users/arunyon/3D Objects/Local-files/RCF_Testing/",SiteID) #*UPDATE*
-working.dir <- paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/",SiteID) #*UPDATE*
+working.dir <- paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
 
 data.dir <- paste(working.dir, "Data", sep="/")
 
