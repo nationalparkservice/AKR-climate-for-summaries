@@ -79,13 +79,14 @@ DF$CF = factor(DF$CF) #, levels=CFs)
 DF$GCM = factor(DF$GCM) #, levels=GCMs)
 DF$season <- factor(DF$season) #, levels=c("DJF","MAM","JJA","SON"))
 
-# # create delta df ### THIS NEVER GETS USED BECAUSE IT COMPARES TO GCM HIS INSTEAD OF DAYMET
-# # df.hist = subset(DF, Period=="Historical" & GCM %in% GCMs)        # Excludes historical rows
-# df.hist <- DF %>% filter(Period == "Historical")        # Includes historical rows
-# # df.fut = subset(DF, Period=="Future" & GCM %in% GCMs)         # Excludes historical rows
-# df.fut <- DF %>% filter(Period == "Future" | (GCM == "Daymet" & Period == "Historical"))      # Includes historical rows
-# delta = df.hist[,1:4]
-# delta[,5:8] = df.fut[,5:8] - df.hist[,5:8]
+# create delta df ### THIS NEVER GETS USED BECAUSE IT COMPARES TO GCM HIS INSTEAD OF DAYMET
+# df.hist = subset(DF, Period=="Historical" & GCM %in% GCMs)        # Excludes historical rows
+df.hist <- DF %>% filter(GCM == "Daymet")        # Includes historical rows
+df.hist <- rbind(df.hist,df.hist)
+# df.fut = subset(DF, Period=="Future" & GCM %in% GCMs)         # Excludes historical rows
+df.fut <- DF %>% filter(Period == "Future") #! Don't know why this section was in there. Seems wrong #| (GCM == "Daymet" & Period == "Historical"))      # Includes historical rows
+delta = df.fut[,1:4]
+delta[,5:8] = df.fut[,5:8] - df.hist[,5:8]
 # delta <- delta[-c(9:12),] # drops historical rows that subtracted to '0'
 
 # source(here::here("Code", "Plots", "scatterplot.R"),echo = FALSE) 
