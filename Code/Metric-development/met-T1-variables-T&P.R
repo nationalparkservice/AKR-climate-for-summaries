@@ -230,7 +230,7 @@ for(i in 1:length(cropped_grid)){
   cropped_st_grid[[i]] <- st_as_stars(cropped_grid[[i]])
 }
 # assign(paste0("cropped_st_grid_",GCMs[G]), cropped_st_grid)
-saveRDS(cropped_st_grid, file = paste(data.dir,"cropped_st_Daymet",sep="/"))
+saveRDS(cropped_st_grid, file = paste(DataOut,"cropped_st_Daymet",sep="/"))
 
 #Tmean
 var = "Tmean (F)"
