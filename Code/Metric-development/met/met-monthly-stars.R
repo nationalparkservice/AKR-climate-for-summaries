@@ -28,8 +28,8 @@ for (G in 1:length(GCMs)){
 
     for(i in 1:length(l)){ # add cropped stars objects to a new list
       nc = l[[i]]
-      nc = st_transform(nc, st_crs(shp))
-      nc_crop = nc[shp]
+      nc = st_transform(nc, st_crs(buff_shp))
+      nc_crop = nc[buff_shp]
       cropped_hist[[i]] = nc_crop
     }
 
@@ -59,8 +59,8 @@ for (G in 1:length(GCMs)){
     
     for(i in 1:length(l)){ # add cropped stars objects to a new list
       nc = l[[i]]
-      nc = st_transform(nc, st_crs(shp))
-      nc_crop = nc[shp]
+      nc = st_transform(nc, st_crs(buff_shp))
+      nc_crop = nc[buff_shp]
       cropped_fut[[i]] = nc_crop
     }
     
@@ -94,8 +94,8 @@ cropped_grid <- list() # create list for cropped stars objects
 
 for(i in 1:length(l)){ # add cropped stars objects to a new list
   nc = l[[i]]
-  nc = st_transform(nc, st_crs(shp))
-  nc_crop = nc[shp]
+  nc = st_transform(nc, st_crs(buff_shp))
+  nc_crop = nc[buff_shp]
   cropped_grid[[i]] = nc_crop
 }
 
