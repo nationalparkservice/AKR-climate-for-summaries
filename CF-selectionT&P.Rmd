@@ -55,6 +55,7 @@ GCM.RCP <- sort(apply(expand.grid(GCMs, RCPs), 1, paste, collapse="."))
 nps_boundary <- st_read('./Data/nps_boundary/nps_boundary.shp')
 park <- filter(nps_boundary, UNIT_CODE == SiteID)
 shp <- st_transform(park, 3338)
+buff_shp <- st_buffer(shp,10000) #buffer shapefile to pick up any cell touching park in crop
 
 # #Unique
 # huc <- st_read("C:/Users/arunyon/OneDrive - DOI/Documents/GIS/AK_HUC8/Kachemak_Tuxedni.shp")
