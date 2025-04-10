@@ -14,7 +14,7 @@ rm(list = ls())
 
 library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(units); library(tidyr); library(lemon);library(ggpubr);library(gridExtra);library(grid); library(gtable); library(lubridate);library(terra);library(raster)
 
-SiteID <- "KOVA" #*UPDATE*
+SiteID <- "ALAG" #*UPDATE*
 
 base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
 # base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
@@ -40,7 +40,7 @@ ak <- crop(topo, ext)
 ak2 <- projectRaster(ak, crs = CRS('+init=EPSG:3338')) # Alaska Albers 
 ak_df  <- as.data.frame(ak2, xy = TRUE) # this step is important to get it to plot in ggplot
 
-GCMs <- c("MRI-CGCM3.rcp45","CCSM4.rcp85")
+GCMs <- c("MRI-CGCM3.rcp85","CCSM4.rcp45")
 CFs <- c("Climate Future 1", "Climate Future 2")
 cols <- c("#6EB2D4","#CA0020")
 
