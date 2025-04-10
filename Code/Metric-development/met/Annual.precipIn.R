@@ -8,13 +8,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, pcp)
+  s = dplyr::select(s, pcp)
   grid_var[[F]] = s[,,,] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- drop_units(grid_var_stars$pcp)
-grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> grid_var_stars
+grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
 # st_get_dimension_values(grid_var_stars,"time") #how get time dimension values
 by_t = "1 year"
@@ -51,7 +51,7 @@ for (G in 1:length(GCMs)){
 
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     hist_var[[H]] = s[,,,] #all months
   }
   
@@ -59,15 +59,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     fut_var[[F]] = s[,,,] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> hist_var_stars
+  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> hist_var_stars
 
   fut_var_stars <- Reduce(c, fut_var)
-  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> fut_var_stars
+  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
 
   by_t = "1 year"
   hist <- aggregate(hist_var_stars, by = by_t, FUN = function(x) sum(x) *30) # *30 bc mean daily, want mean monthly

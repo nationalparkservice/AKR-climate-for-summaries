@@ -10,13 +10,13 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-  s = select(s, tmean)
+  s = dplyr::select(s, tmean)
   grid_var[[F]] = s[,,,] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmean <- drop_units(grid_var_stars$tmean)
-grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> grid_var_stars
 
 # st_get_dimension_values(grid_var_stars,"time") #how get time dimension values
 
@@ -54,7 +54,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     hist_var[[H]] = s[,,,] #all months
   }
   
@@ -63,15 +63,15 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     fut_var[[F]] = s[,,,] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> hist_var_stars
 
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> fut_var_stars
   
   by_t = "1 year"
   hist <- aggregate(hist_var_stars, by = by_t, FUN = mean, na.omit = TRUE) # Doesn't work in lat/long. Must be projected. Removes units from tmax. Also aggregates to a lower resolution.
