@@ -12,8 +12,8 @@ print(yr)
 invisible(capture.output(
   suppressWarnings(
     (grid_star = read_stars(grid_filelist[i], sub=c("tmax","tmin","pcp") ,curvilinear = c("longitude", "latitude"))))))
-grid_star = st_transform(grid_star, st_crs(shp))
-grid_crop = grid_star[shp]
+grid_star = st_transform(grid_star, st_crs(buff_shp))
+grid_crop = grid_star[buff_shp]
 grid_crop = drop_units(grid_crop)
 rm(grid_star)
 
@@ -50,8 +50,8 @@ for (G in 1:length(GCMs)){
       invisible(capture.output(
         suppressWarnings(
       (fut_star = read_ncdf(fut_filelist[i], var=c("tmax","tmin","pcp"), curvilinear = c("longitude", "latitude"))))))
-      fut_star = st_transform(fut_star, st_crs(shp))
-      fut_crop = fut_star[shp]
+      fut_star = st_transform(fut_star, st_crs(buff_shp))
+      fut_crop = fut_star[buff_shp]
       fut_crop = drop_units(fut_crop)
       rm(fut_star)
       

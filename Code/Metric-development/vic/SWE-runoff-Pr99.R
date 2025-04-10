@@ -19,15 +19,15 @@ yr = as.POSIXct(sub('.*\\wf_', '', sub("\\..*", "", wf_grid_filelist[i])),format
 print(yr)
 invisible(capture.output(suppressWarnings(
   (grid_star_wf = read_stars(wf_grid_filelist[i], sub=c("RUNOFF") ,curvilinear = c("longitude", "latitude"))))))
-grid_star_wf = st_transform(grid_star_wf, st_crs(shp))
-grid_crop_wf = grid_star_wf[shp]
+grid_star_wf = st_transform(grid_star_wf, st_crs(buff_shp))
+grid_crop_wf = grid_star_wf[buff_shp]
 grid_crop_wf = drop_units(grid_crop_wf)
 
 invisible(capture.output(
   suppressWarnings(
     (grid_star_ws = read_stars(ws_grid_filelist[i], sub=c("SWE") ,curvilinear = c("longitude", "latitude"))) )))
-grid_star_ws = st_transform(grid_star_ws, st_crs(shp))
-grid_crop_ws = grid_star_ws[shp]
+grid_star_ws = st_transform(grid_star_ws, st_crs(buff_shp))
+grid_crop_ws = grid_star_ws[buff_shp]
 grid_crop_ws = drop_units(grid_crop_ws)
 
 rm(grid_star_wf, grid_star_ws)
@@ -72,15 +72,15 @@ for (G in 1:length(GCMs)){
   print(yr)
   invisible(capture.output(suppressWarnings(
   (fut_star_wf = read_stars(wf_fut_filelist[i], sub=c("RUNOFF") ,curvilinear = c("longitude", "latitude"))))))
-  fut_star_wf = st_transform(fut_star_wf, st_crs(shp))
-  fut_crop_wf = fut_star_wf[shp]
+  fut_star_wf = st_transform(fut_star_wf, st_crs(buff_shp))
+  fut_crop_wf = fut_star_wf[buff_shp]
   fut_crop_wf = drop_units(fut_crop_wf)
   
   invisible(capture.output(
     suppressWarnings(
   (fut_star_ws = read_stars(ws_fut_filelist[i], sub=c("SWE") ,curvilinear = c("longitude", "latitude"))) )))
-  fut_star_ws = st_transform(fut_star_ws, st_crs(shp))
-  fut_crop_ws = fut_star_ws[shp]
+  fut_star_ws = st_transform(fut_star_ws, st_crs(buff_shp))
+  fut_crop_ws = fut_star_ws[buff_shp]
   fut_crop_ws = drop_units(fut_crop_ws)
   
   rm(fut_star_wf, fut_star_ws)
