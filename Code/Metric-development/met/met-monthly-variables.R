@@ -22,7 +22,7 @@ grid_var2  <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(tmean = (tmax + tmin)/2) -> s
-  s = select(s, tmean)
+  s = dplyr::select(s, tmean)
   grid_var1[[F]] = s[,,,c(1:2)] #all months
   grid_var2[[F]] = s[,,,c(12)] #all months
 }
@@ -31,7 +31,7 @@ grid_var <- c(grid_var1,grid_var2)
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmean <- drop_units(grid_var_stars$tmean)
-grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -46,13 +46,13 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(tmean = (tmax + tmin)/2) -> s
-  s = select(s, tmean)
+  s = dplyr::select(s, tmean)
   grid_var[[F]] = s[,,,3:5] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmean <- drop_units(grid_var_stars$tmean)
-grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -66,13 +66,13 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(tmean = (tmax + tmin)/2) -> s
-  s = select(s, tmean)
+  s = dplyr::select(s, tmean)
   grid_var[[F]] = s[,,,6:8] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmean <- drop_units(grid_var_stars$tmean)
-grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -86,13 +86,13 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(tmean = (tmax + tmin)/2) -> s
-  s = select(s, tmean)
+  s = dplyr::select(s, tmean)
   grid_var[[F]] = s[,,,9:11] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmean <- drop_units(grid_var_stars$tmean)
-grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -107,7 +107,7 @@ grid_var2  <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmax)
+  s = dplyr::select(s, tmax)
   grid_var1[[F]] = s[,,,c(1:2)] #all months
   grid_var2[[F]] = s[,,,c(12)] #all months
 }
@@ -116,7 +116,7 @@ grid_var <- c(grid_var1,grid_var2)
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmax <- drop_units(grid_var_stars$tmax)
-grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -129,13 +129,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmax)
+  s = dplyr::select(s, tmax)
   grid_var[[F]] = s[,,,3:5] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmax <- drop_units(grid_var_stars$tmax)
-grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -148,13 +148,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmax)
+  s = dplyr::select(s, tmax)
   grid_var[[F]] = s[,,,6:8] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmax <- drop_units(grid_var_stars$tmax)
-grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -167,13 +167,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmax)
+  s = dplyr::select(s, tmax)
   grid_var[[F]] = s[,,,9:11] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmax <- drop_units(grid_var_stars$tmax)
-grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -188,7 +188,7 @@ grid_var2  <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmin)
+  s = dplyr::select(s, tmin)
   grid_var1[[F]] = s[,,,c(1:2)] #all months
   grid_var2[[F]] = s[,,,c(12)] #all months
 }
@@ -197,7 +197,7 @@ grid_var <- c(grid_var1,grid_var2)
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmin <- drop_units(grid_var_stars$tmin)
-grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -210,13 +210,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmin)
+  s = dplyr::select(s, tmin)
   grid_var[[F]] = s[,,,3:5] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmin <- drop_units(grid_var_stars$tmin)
-grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -229,13 +229,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmin)
+  s = dplyr::select(s, tmin)
   grid_var[[F]] = s[,,,6:8] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmin <- drop_units(grid_var_stars$tmin)
-grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -250,13 +250,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, tmin)
+  s = dplyr::select(s, tmin)
   grid_var[[F]] = s[,,,9:11] #all months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$tmin <- drop_units(grid_var_stars$tmin)
-grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> grid_var_stars
+grid_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> grid_var_stars
 
 mean_grid <- st_apply(grid_var_stars, c("x", "y"), mean)
 
@@ -271,7 +271,7 @@ grid_var2  <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, pcp)
+  s = dplyr::select(s, pcp)
   grid_var1[[F]] = s[,,,c(1:2)] #all months
   grid_var2[[F]] = s[,,,c(12)] #all months
 }
@@ -280,7 +280,7 @@ grid_var <- c(grid_var1,grid_var2)
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- drop_units(grid_var_stars$pcp)
-grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> grid_var_stars
+grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
 sum_grid <- st_apply(grid_var_stars, c("x", "y"), sum)
 
@@ -293,13 +293,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, pcp)
+  s = dplyr::select(s, pcp)
   grid_var[[F]] = s[,,,3:5] #set for months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- drop_units(grid_var_stars$pcp)
-grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> grid_var_stars
+grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
 sum_grid <- st_apply(grid_var_stars, c("x", "y"), sum)
 
@@ -312,13 +312,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, pcp)
+  s = dplyr::select(s, pcp)
   grid_var[[F]] = s[,,,6:8] #set for months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- drop_units(grid_var_stars$pcp)
-grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> grid_var_stars
+grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
 sum_grid <- st_apply(grid_var_stars, c("x", "y"), sum)
 
@@ -331,13 +331,13 @@ grid_var <- list()
 
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
-  s = select(s, pcp)
+  s = dplyr::select(s, pcp)
   grid_var[[F]] = s[,,,9:11] #set for months
 }
 
 grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- drop_units(grid_var_stars$pcp)
-grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> grid_var_stars
+grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
 sum_grid <- st_apply(grid_var_stars, c("x", "y"), sum)
 
@@ -366,7 +366,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     hist_var1[[H]] = s[,,,c(1:2)] #all months
     hist_var2[[H]] = s[,,,c(12)] #all months
   }
@@ -377,7 +377,7 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     fut_var1[[F]] = s[,,,c(1:2)] #all months
     fut_var2[[F]] = s[,,,c(12)] #all months
   }
@@ -385,12 +385,12 @@ for (G in 1:length(GCMs)){
   hist_var <- c(hist_var1,hist_var2)
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> hist_var_stars
   
   fut_var <- c(fut_var1,fut_var2)
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -408,7 +408,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     hist_var[[H]] = s[,,,3:5] #all months
   }
   
@@ -417,15 +417,15 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     fut_var[[F]] = s[,,,3:5] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -443,7 +443,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     hist_var[[H]] = s[,,,6:8] #all months
   }
   
@@ -452,15 +452,15 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     fut_var[[F]] = s[,,,6:8] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -478,7 +478,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     hist_var[[H]] = s[,,,9:11] #all months
   }
   
@@ -487,15 +487,15 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(tmean = (tmax + tmin)/2) -> s 
-    s = select(s, tmean)
+    s = dplyr::select(s, tmean)
     fut_var[[F]] = s[,,,9:11] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% select(tmean_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmean_f = tmean * 9/5 + 32) %>% dplyr::select(tmean_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -514,7 +514,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     hist_var1[[H]] = s[,,,c(1:2)] #all months
     hist_var2[[H]] = s[,,,c(12)] #all months
   }
@@ -524,7 +524,7 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     fut_var1[[F]] = s[,,,c(1:2)] #all months
     fut_var2[[F]] = s[,,,c(12)] #all months
   }
@@ -532,12 +532,12 @@ for (G in 1:length(GCMs)){
   hist_var <- c(hist_var1,hist_var2)
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> hist_var_stars
   
   fut_var <- c(fut_var1,fut_var2)
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -554,7 +554,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     hist_var[[H]] = s[,,,3:5] #all months
   }
   
@@ -562,15 +562,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     fut_var[[F]] = s[,,,3:5] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -587,7 +587,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     hist_var[[H]] = s[,,,6:8] #all months
   }
   
@@ -595,15 +595,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     fut_var[[F]] = s[,,,6:8] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -620,7 +620,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     hist_var[[H]] = s[,,,9:11] #all months
   }
   
@@ -628,15 +628,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmax)
+    s = dplyr::select(s, tmax)
     fut_var[[F]] = s[,,,9:11] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% select(tmax_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmax_f = tmax * 9/5 + 32) %>% dplyr::select(tmax_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -655,7 +655,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     hist_var1[[H]] = s[,,,c(1:2)] #all months
     hist_var2[[H]] = s[,,,c(12)] #all months
   }
@@ -665,7 +665,7 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     fut_var1[[F]] = s[,,,c(1:2)] #all months
     fut_var2[[F]] = s[,,,c(12)] #all months
   }
@@ -673,12 +673,12 @@ for (G in 1:length(GCMs)){
   hist_var <- c(hist_var1,hist_var2)
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> hist_var_stars
   
   fut_var <- c(fut_var1,fut_var2)
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -695,7 +695,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     hist_var[[H]] = s[,,,3:5] #all months
   }
   
@@ -703,15 +703,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     fut_var[[F]] = s[,,,3:5] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -728,7 +728,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     hist_var[[H]] = s[,,,6:8] #all months
   }
   
@@ -736,15 +736,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     fut_var[[F]] = s[,,,6:8] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -761,7 +761,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     hist_var[[H]] = s[,,,9:11] #all months
   }
   
@@ -769,15 +769,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, tmin)
+    s = dplyr::select(s, tmin)
     fut_var[[F]] = s[,,,9:11] #all months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> hist_var_stars
+  hist_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% select(tmin_f) -> fut_var_stars
+  fut_var_stars %>% mutate(tmin_f = tmin * 9/5 + 32) %>% dplyr::select(tmin_f) -> fut_var_stars
   
   mean_hist <- st_apply(hist_var_stars, c("x", "y"), mean) # find mean
   mean_fut <- st_apply(fut_var_stars, c("x", "y"), mean)
@@ -796,7 +796,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     hist_var1[[H]] = s[,,,c(1:2)] #all months
     hist_var2[[H]] = s[,,,c(12)] #all months
   }
@@ -806,7 +806,7 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     fut_var1[[F]] = s[,,,c(1:2)] #all months
     fut_var2[[F]] = s[,,,c(12)] #all months
   }
@@ -814,12 +814,12 @@ for (G in 1:length(GCMs)){
   hist_var <- c(hist_var1,hist_var2)
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> hist_var_stars
+  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> hist_var_stars
   
   fut_var <- c(fut_var1,fut_var2)
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> fut_var_stars
+  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
   
   sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(historical.period)) # find sum
   sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(future.period))
@@ -836,7 +836,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     hist_var[[H]] = s[,,,3:5] #set for months
   }
   
@@ -844,15 +844,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     fut_var[[F]] = s[,,,3:5] #set for months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> hist_var_stars
+  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> fut_var_stars
+  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
   
   sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(historical.period)) # find sum
   sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(future.period))
@@ -869,7 +869,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     hist_var[[H]] = s[,,,6:8] #set for months
   }
   
@@ -877,15 +877,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     fut_var[[F]] = s[,,,6:8] #set for months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> hist_var_stars
+  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> fut_var_stars
+  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
   
   sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(historical.period)) # find sum
   sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(future.period))
@@ -902,7 +902,7 @@ for (G in 1:length(GCMs)){
   
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     hist_var[[H]] = s[,,,9:11] #set for months
   }
   
@@ -910,15 +910,15 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
-    s = select(s, pcp)
+    s = dplyr::select(s, pcp)
     fut_var[[F]] = s[,,,9:11] #set for months
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> hist_var_stars
+  hist_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var) 
-  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% select(pcp_in) -> fut_var_stars
+  fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
   
   sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(historical.period)) # find sum
   sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)*90/length(future.period))
