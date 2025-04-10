@@ -9,7 +9,7 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(water.balance = PRCP - EVAP) -> s 
-  s = select(s, water.balance)
+  s = dplyr::select(s, water.balance)
   if (is.na(summary(s$water.balance)[4])) {
     grid_var[[F]] = grid_var[[F-1]]
     st_dimensions(grid_var[[F]])[3] = st_dimensions(s)[3]
@@ -19,7 +19,7 @@ for(F in 1:length(cropped_st_grid)){
 }
 
 grid_var_stars <- Reduce(c, grid_var)
-grid_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% select(water.balancef) -> grid_var_stars
+grid_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% dplyr::select(water.balancef) -> grid_var_stars
 
 # st_get_dimension_values(grid_var_stars,"time") #how get time dimension values
 by_t = "1 year"
@@ -52,7 +52,7 @@ for (G in 1:length(GCMs)){
   for(H in 1:length(cropped_st_hist)){
     s = cropped_st_hist[[H]]
     s %>% mutate(water.balance = PRCP - EVAP) -> s 
-    s = select(s, water.balance)
+    s = dplyr::select(s, water.balance)
     if (is.na(summary(s$water.balance)[4])) {
       hist_var[[H]] = hist_var[[H-1]]
       st_dimensions(hist_var[[H]])[3] = st_dimensions(s)[3]
@@ -66,7 +66,7 @@ for (G in 1:length(GCMs)){
   for(F in 1:length(cropped_st_fut)){
     s = cropped_st_fut[[F]]
     s %>% mutate(water.balance = PRCP - EVAP) -> s 
-    s = select(s, water.balance)
+    s = dplyr::select(s, water.balance)
     if (is.na(summary(s$water.balance)[4])) {
       fut_var[[F]] = fut_var[[F-1]]
       st_dimensions(fut_var[[F]])[3] = st_dimensions(s)[3]
@@ -76,10 +76,10 @@ for (G in 1:length(GCMs)){
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% select(water.balancef) -> hist_var_stars
+  hist_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% dplyr::select(water.balancef) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var)
-  fut_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% select(water.balancef) -> fut_var_stars
+  fut_var_stars %>% mutate(water.balancef = water.balance / 25.4) %>% dplyr::select(water.balancef) -> fut_var_stars
 
   by_t = "1 year"
   hist <- aggregate(hist_var_stars, by = by_t, FUN = function(x) sum(x)) #Don't need to divide by #yrs b/c by year

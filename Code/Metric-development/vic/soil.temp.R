@@ -9,7 +9,7 @@ grid_var <- list()
 for(F in 1:length(cropped_st_grid)){
   s = cropped_st_grid[[F]]
   s %>% mutate(soil.temp = (SOIL_TEMP1+SOIL_TEMP2)/2) -> s 
-  s = select(s, soil.temp)
+  s = dplyr::select(s, soil.temp)
   if (is.na(summary(s$soil.temp)[4])) {
     grid_var[[F]] = grid_var[[F-1]]
     st_dimensions(grid_var[[F]])[3] = st_dimensions(s)[3]
@@ -19,7 +19,7 @@ for(F in 1:length(cropped_st_grid)){
 }
 
 grid_var_stars <- Reduce(c, grid_var)
-grid_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% select(soil.tempf) -> grid_var_stars
+grid_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% dplyr::select(soil.tempf) -> grid_var_stars
 
 # st_get_dimension_values(grid_var_stars,"time") #how get time dimension values
 by_t = "1 year"
@@ -74,10 +74,10 @@ for (G in 1:length(GCMs)){
   }
   
   hist_var_stars <- Reduce(c, hist_var)
-  hist_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% select(soil.tempf) -> hist_var_stars
+  hist_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% dplyr::select(soil.tempf) -> hist_var_stars
   
   fut_var_stars <- Reduce(c, fut_var)
-  fut_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% select(soil.tempf) -> fut_var_stars
+  fut_var_stars %>% mutate(soil.tempf = soil.temp * 9/5 + 32) %>% dplyr::select(soil.tempf) -> fut_var_stars
 
   by_t = "1 year"
   hist <- aggregate(hist_var_stars, by = by_t, FUN = function(x) mean(x)) #Don't need to divide by #yrs b/c by year
