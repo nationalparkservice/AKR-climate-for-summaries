@@ -12,7 +12,7 @@ DF = data.frame()
   
   for(F in 1:length(cropped_st_wf)){
     s = cropped_st_wf[[F]]
-    s = dplyr::dplyr::select(s, c(PRCP))
+    s = dplyr::select(s, c(PRCP))
     if (is.na(summary(s$PRCP)[4])) {
       grid_var_wf[[F]] = grid_var_wf[[F-1]]
       st_dimensions(grid_var_wf[[F]])[3] = st_dimensions(s)[3]
@@ -25,7 +25,7 @@ DF = data.frame()
   
   for(F in 1:length(cropped_st_ws)){
     s = cropped_st_ws[[F]]
-    s = dplyr::dplyr::select(s, c(SWE))
+    s = dplyr::select(s, c(SWE))
     if (is.na(summary(s$SWE)[4])) {
       grid_var_ws[[F]] = grid_var_ws[[F-1]]
       st_dimensions(grid_var_ws[[F]])[3] = st_dimensions(s)[3]
@@ -36,11 +36,11 @@ DF = data.frame()
   
   wf_var <- Reduce(c, grid_var_wf)
   wf_var <-drop_units(wf_var)
-  wf_var %>% dplyr::dplyr::select(PRCP) -> var_prcp
+  wf_var %>% dplyr::select(PRCP) -> var_prcp
   
   ws_var <- Reduce(c, grid_var_ws)
   ws_var <-drop_units(ws_var)
-  ws_var %>% dplyr::dplyr::select(SWE) -> var_swe
+  ws_var %>% dplyr::select(SWE) -> var_swe
   
   by_t = "1 year"
   p <- aggregate(var_prcp, by = by_t, FUN = function(x) sum(x)) #Don't need to divide by #yrs b/c by year
@@ -81,7 +81,7 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_wf)){
     s = cropped_st_wf[[F]]
-    s = dplyr::dplyr::select(s, c(PRCP))
+    s = dplyr::select(s, c(PRCP))
     if (is.na(summary(s$PRCP)[4])) {
       fut_var_wf[[F]] = fut_var_wf[[F-1]]
       st_dimensions(fut_var_wf[[F]])[3] = st_dimensions(s)[3]
@@ -94,7 +94,7 @@ for (G in 1:length(GCMs)){
   
   for(F in 1:length(cropped_st_ws)){
     s = cropped_st_ws[[F]]
-    s = dplyr::dplyr::select(s, c(SWE))
+    s = dplyr::select(s, c(SWE))
     if (is.na(summary(s$SWE)[4])) {
       fut_var_ws[[F]] = fut_var_ws[[F-1]]
       st_dimensions(fut_var_ws[[F]])[3] = st_dimensions(s)[3]
@@ -105,11 +105,11 @@ for (G in 1:length(GCMs)){
   
   wf_var <- Reduce(c, fut_var_wf)
   wf_var <-drop_units(wf_var)
-  wf_var %>% dplyr::dplyr::select(PRCP) -> var_prcp
+  wf_var %>% dplyr::select(PRCP) -> var_prcp
 
   ws_var <- Reduce(c, fut_var_ws)
   ws_var <-drop_units(ws_var)
-  ws_var %>% dplyr::dplyr::select(SWE) -> var_swe
+  ws_var %>% dplyr::select(SWE) -> var_swe
 
   by_t = "1 year"
   p <- aggregate(var_prcp, by = by_t, FUN = function(x) sum(x)) #Don't need to divide by #yrs b/c by year
