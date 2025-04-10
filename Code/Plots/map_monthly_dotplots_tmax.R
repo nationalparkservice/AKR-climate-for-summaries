@@ -152,7 +152,12 @@ ggsave(paste0("seasonal_",var,"_bar.png"), plot = ann, width = 15, height = 9, p
 
 ## With historical data
 
-barchart <- ggplot(df.fut, aes(x=factor(season, levels = c('DJF', 'MAM', 'JJA', 'SON')), y=(eval(parse(text=delta.var))), fill=factor(CF, levels = c('Historical', 'Climate Future 1', 'Climate Future 2')))) +
+# Drop duplicative df.hist rows
+df.hist.2 <- df.hist[1:(nrow(df.hist) - 4), ]
+# Combine df.hist and df.fut data
+df.hist.fut <- rbind(df.hist.2,df.fut)
+
+barchart <- ggplot(df.hist.fut, aes(x=factor(season, levels = c('DJF', 'MAM', 'JJA', 'SON')), y=(eval(parse(text=delta.var))), fill=factor(CF, levels = c('Historical', 'Climate Future 1', 'Climate Future 2')))) +
   geom_bar(stat = "identity", position = "dodge") +
   geom_hline(yintercept = 0, linetype="solid", color = "black", size = 0.75) +
   theme(axis.text = element_text(size = 18),    # Text size for axis tick mark labels
@@ -173,3 +178,5 @@ ann <- annotate_figure(barchart, top = text_grob(paste0("Seasonal ",long.title),
                                           face = "bold", size = 22))
 
 ggsave(paste0("seasonal_",var,"_bar_historical.png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
+
+rm(df.hist.2)
