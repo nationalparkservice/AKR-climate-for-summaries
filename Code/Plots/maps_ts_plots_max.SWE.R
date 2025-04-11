@@ -1,5 +1,5 @@
 var = "max.SWE"
-long.title = "maximum annual snow water equivalent (in/year)"
+long.title = "maximum annual SWE (in/year)"
 scale="mako"
 # ratio= .9  #aspect ratio for ts
 
@@ -78,7 +78,7 @@ ts <- ggplot(df, aes(x=Year, y=(eval(parse(text=var))), group=CF, colour = CF)) 
         legend.text=element_text(size=18), legend.title=element_text(size=14),
         legend.position = "bottom") +
   labs(title = paste0("Change in annual ",long.title), 
-       x = "Year", y = "Maximum annual snow water equivalent (in/year)") +
+       x = "Year", y = "Maximum annual SWE (in/year)") +
   scale_color_manual(name="",values = c("grey", cols)) +
   scale_fill_manual(name="",values = c("grey", cols)) +
   scale_shape_manual(name="",values = c(21,22,23, 24))
