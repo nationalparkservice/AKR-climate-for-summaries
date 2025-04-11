@@ -73,7 +73,7 @@ ts <- ggplot(df, aes(x=Year, y=(eval(parse(text=var))), group=CF, colour = CF)) 
   theme(axis.text=element_text(size=16),
         # axis.text.x=element_blank(),
         axis.title.x=element_text(size=16,vjust=1.0),
-        axis.title.y=element_text(size=16,vjust=1.0),
+        axis.title.y=element_text(size=16,vjust=1.0,hjust=0),
         plot.title=element_blank(),
         legend.text=element_text(size=14), legend.title=element_text(size=14),
         legend.position = "bottom") +
