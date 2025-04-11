@@ -109,16 +109,19 @@ ggsave(paste0("SWE-runoff.png"), plot = grid, width = 15, height = 9, path = plo
 
 max.swe <- df %>%
   group_by(CF, CF_col, Year) %>%
-  summarize(max_SWE_in = max(SWE_in, na.rm = TRUE))
+  summarize(max_SWE_in = max(SWE_in, na.rm = TRUE),
+            .groups = "drop")
 
 mean.swe <- df %>%
   group_by(CF, CF_col, Year) %>%
-  summarize(mean_SWE_in = mean(SWE_in, na.rm = TRUE))
+  summarize(mean_SWE_in = mean(SWE_in, na.rm = TRUE),
+            .groups = "drop")
 
 snow.on <- df %>%
   filter(SWE_in == 0) %>%
   group_by(CF, CF_col, Year) %>%
-  summarize(first.day = min(yday), .groups = "drop")
+  summarize(first.day = min(yday),
+            .groups = "drop")
 
 snow.off <- df %>%
   filter(SWE_in == 0) %>%
@@ -231,4 +234,4 @@ jitterplot
 
 ggsave(paste0("max.SWE_jitterplot.png"),plot = jitterplot,width = 15,height = 9,path = plot.dir,bg="white")
 
-rm(max.swe,mean.swe,snow.on,snow.off,max.swe.mean,SWE.metrics,barchart,boxplot,jitterplot)
+rm(max.swe,mean.swe,snow.on,snow.off,max.swe.mean,barchart,boxplot,jitterplot)
