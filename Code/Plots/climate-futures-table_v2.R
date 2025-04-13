@@ -170,7 +170,7 @@ soil.data <- read.csv(paste0(data.dir,"/soil.temp_ANN.csv")) |>
   
 
 soil.aggregate <- aggregate(soil.temp~CF,soil.data,mean)
-write.csv(soil.aggregate,paste0(data.dir,"/","soil.means.csv"))
+write.csv(soil.aggregate,paste0(data.dir,"/","soil.means.csv"),row.names=FALSE)
 
 soil.delta <- soil.aggregate %>%
   mutate(across(-CF, ~ . - soil.aggregate[soil.aggregate$CF == "Historical", ][[cur_column()]])) |> 
