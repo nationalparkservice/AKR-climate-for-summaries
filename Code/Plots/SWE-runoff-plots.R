@@ -120,14 +120,14 @@ mean.swe <- df %>%
 snow.on <- df %>%
   filter(SWE_in == 0) %>%
   group_by(CF, CF_col, Year) %>%
-  summarize(first.day = min(yday),
+  summarize(first.day = min(yday, na.rm = TRUE),
             .groups = "drop")
 
 snow.off <- df %>%
   filter(SWE_in == 0) %>%
   group_by(CF, CF_col, Year) %>%
   summarize(
-    last.day = max(yday),
+    last.day = max(yday, na.rm = TRUE),
     subsequent.day = max(yday) + 1,
     .groups = "drop")
 
