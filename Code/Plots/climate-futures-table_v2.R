@@ -142,6 +142,7 @@ colnames(report.output) = columns
 report.output$CF <- CFs
 
 all.deltas <- read.csv(paste0(data.dir,"/Deltas.csv")) # Read in deltas file for all CFs
+all.deltas$Precip_in = all.deltas$Precip_in*30
 report.output$FullRangeTmean[1] <- min(all.deltas$Tmean_F) 
 report.output$FullRangeTmean[2] <- max(all.deltas$Tmean_F)
 report.output$FullRangePr[1] <- min(all.deltas$Precip_in)
