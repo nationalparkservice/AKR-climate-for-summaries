@@ -89,6 +89,7 @@ Loop through met GCM.rcp and summarize each variable
 memory.limit(size = 60000)
 
 source(here::here("Code", "Metric-development", "met-T1-variables-T&P.R"),echo = FALSE) 
+# met Monthly dset is avg daily for each month - mutiply by 30 to get monthly sum -- done below
 
 write.csv(Baseline_Means,paste0(DataOut,"/Baseline_Means.csv"),row.names=FALSE)
 write.csv(Future_Means,paste0(DataOut,"/Future_Means.csv"),row.names=FALSE)
@@ -104,6 +105,7 @@ Run PCA and create scatterplots for T1 variables
 # Baseline_Means <- read.csv(paste0(DataOut,"/Baseline_Means.csv"))
 # Future_Means <- read.csv(paste0(DataOut,"/Future_Means.csv"))
 Deltas <- read.csv(paste0(DataOut,"/Deltas.csv"))
+Deltas$Precip_in = Deltas$Precip_in*30
 
 
 PlotWidth = 15
@@ -164,7 +166,7 @@ PC2<- c(rownames(pca.df)[which.min(pca.df$PC2)],rownames(pca.df)[which.max(pca.d
 
 
 #### MANUALLY SET CFS
-CFs <- c("MRI-CGCM3.rcp85","CCSM4.rcp85") #*UPDATE*
+CFs <- c("MRI-CGCM3.rcp45","CCSM4.rcp85") #*UPDATE*
 # colors2 <-  c("#6EB2D4", "#CA0020")
 colors2 <- c("#6EB2D4","#CA0020") #*UPDATE*
 
