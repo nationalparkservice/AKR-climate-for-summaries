@@ -163,8 +163,8 @@ for (G in 1:length(GCMs)){
     fut_var_stars <- Reduce(c, fut_var) 
     fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
     
-    sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(historical.period)*30) # find sum -- nc data is avg daily for each month
-    sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(future.period)*30)
+    sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(historical.period)) # find sum -- nc data is avg daily for each month
+    sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(future.period))
     # delta <- sum_fut - sum_hist
     
     
@@ -264,7 +264,7 @@ grid_var_stars <- Reduce(c, grid_var)
 grid_var_stars$pcp <- units::drop_units(grid_var_stars$pcp)
 grid_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> grid_var_stars
 
-sum_grid <- st_apply(grid_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(daymet.period)*30) # find sum
+sum_grid <- st_apply(grid_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(daymet.period)) # find sum
 Daymet_Means[4] = mean(sum_grid$pcp_in, na.rm=TRUE)
 
 Daymet_Means[1] = "gridmet"
