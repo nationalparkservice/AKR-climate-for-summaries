@@ -144,8 +144,8 @@ report.output$CF <- CFs
 all.deltas <- read.csv(paste0(data.dir,"/Deltas.csv")) # Read in deltas file for all CFs
 report.output$FullRangeTmean[1] <- min(all.deltas$Tmean_F) 
 report.output$FullRangeTmean[2] <- max(all.deltas$Tmean_F)
-report.output$FullRangePr[1] <- min(all.deltas$Precip_in)*30
-report.output$FullRangePr[2] <- max(all.deltas$Precip_in)*30
+report.output$FullRangePr[1] <- min(all.deltas$Precip_in)
+report.output$FullRangePr[2] <- max(all.deltas$Precip_in)
 report.output$`FullRangePr%`[1] <- (min(all.deltas$Precip_in)/merged$Annual.precipIn[1])*100
 report.output$`FullRangePr%`[2] <- (max(all.deltas$Precip_in)/merged$Annual.precipIn[1])*100
 report.output$CFTmean <- as.vector(t(merged_transpose_deltas[2,2:3])) # #s differ from full range
