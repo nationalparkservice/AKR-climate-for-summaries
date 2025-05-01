@@ -14,24 +14,24 @@ df$yday = yday(df$date)
 
 #### Runoff plot
 runoff.plot <- function(data, col,CF){  
-ggplot() +
-  geom_line(data=data,aes(x=yday,y=RUNOFF_in,group=Year),colour=col,size=.7) +
+  ggplot() +
+    geom_line(data=data,aes(x=yday,y=RUNOFF_in,group=Year),colour=col,size=.7) +
     geom_vline(xintercept=91, linetype="dashed", color = "black") +
     geom_text(aes(x=91, label="Apr 1\n", y=max(df$RUNOFF)), 
               colour="black", angle=90, text=element_text(size=11),hjust=1) +
     geom_vline(xintercept=274, linetype="dashed", color = "black") +
     geom_text(aes(x=274, label="\nOct 1", y=max(df$RUNOFF)), 
               colour="black", angle=90, text=element_text(size=11),hjust=1) +
-  theme(axis.text=element_text(size=16),
-        # axis.text.x=element_blank(),
-        axis.title.x=element_text(size=16,vjust=1.0),
-        axis.title.y=element_text(size=16,vjust=1.0),
-        plot.title=element_blank(),
-        legend.text=element_text(size=14), legend.title=element_text(size=14),
-        legend.position = "bottom") +
-  labs(title = "", 
-       x = "", y = CF) +
-  ylim(0,max(df$RUNOFF_in))
+    theme(axis.text=element_text(size=16),
+          # axis.text.x=element_blank(),
+          axis.title.x=element_text(size=16,vjust=1.0),
+          axis.title.y=element_text(size=16,vjust=1.0),
+          plot.title=element_blank(),
+          legend.text=element_text(size=14), legend.title=element_text(size=14),
+          legend.position = "bottom") +
+    labs(title = "", 
+         x = "", y = CF) +
+    ylim(0,max(df$RUNOFF_in))
   # coord_fixed(ratio = .5)
 }
 
@@ -91,16 +91,16 @@ grid2 <- ggarrange(Hist.SWE, CF1.SWE, CF2.SWE, ncol = 1, nrow = 3) #CF3.SWE
 
 grid2 =  annotate_figure(grid2, left = textGrob("SWE (in)", rot = 90, vjust = 0.5, 
                                                 gp = gpar(cex = 1.3)), # Changed for more white space around y-axis title; originally vjust = 1
-                        bottom = textGrob("Julian day", gp = gpar(cex = 1.3)),
-                        top = textGrob("Daily SWE for each climate future",
-                                       gp=gpar(fontface="bold", col="black", fontsize=16)))
+                         bottom = textGrob("Julian day", gp = gpar(cex = 1.3)),
+                         top = textGrob("Daily SWE for each climate future",
+                                        gp=gpar(fontface="bold", col="black", fontsize=16)))
 grid2
 ggsave(paste0("SWE-runoff-daily-only.png"), plot = grid2, width = 7, height = 8, path = plot.dir, bg = "white")
 
 #### Final plot arrangement
 grid = ggarrange(grid1,grid2,nrow=1,ncol=2) 
 annotate_figure(grid, top = textGrob(SiteID,
-                                      gp=gpar(fontface="bold", col="black", fontsize=20)))
+                                     gp=gpar(fontface="bold", col="black", fontsize=20)))
 
 ggsave(paste0("SWE-runoff.png"), plot = grid, width = 15, height = 9, path = plot.dir, bg = "white")
 
@@ -113,18 +113,19 @@ max.swe <- df %>%
             .groups = "drop")
 
 mean.swe <- df %>%
-  group_by(CF, CF_col, Year) %>%
+  group_by(CF, CF_col, Year) %>% 
   summarize(mean_SWE_in = mean(SWE_in, na.rm = TRUE),
             .groups = "drop")
 
+## Snow on/off
 snow.on <- df %>%
-  filter(SWE_in == 0) %>%
-  group_by(CF, CF_col, Year) %>%
+  filter(SWE_in < quantile(df$SWE_in,0.1)) %>% #days with snow < 10% percentile for year to account for years where never not snow
+  group_by(CF, CF_col, Year) %>% 
   summarize(first.day = min(yday, na.rm = TRUE),
             .groups = "drop")
 
 snow.off <- df %>%
-  filter(SWE_in == 0) %>%
+  filter(SWE_in < quantile(df$SWE_in,0.1)) %>%
   group_by(CF, CF_col, Year) %>%
   summarize(
     last.day = max(yday, na.rm = TRUE),
@@ -150,8 +151,8 @@ max.swe.mean$CF <- factor(max.swe.mean$CF, levels = c('Historical', 'Climate Fut
 #### Bar chart
 
 barchart <- ggplot(max.swe.mean, aes(x=factor(CF, levels = c('Historical', 'Climate Future 1', 'Climate Future 2')), 
-                               y=mean_max_SWE_in, 
-                               fill=factor(CF, levels = c('Historical', 'Climate Future 1', 'Climate Future 2')))) +
+                                     y=mean_max_SWE_in, 
+                                     fill=factor(CF, levels = c('Historical', 'Climate Future 1', 'Climate Future 2')))) +
   geom_bar(stat = "identity", position = "dodge") +
   geom_hline(yintercept = 0, linetype="solid", color = "black", size = 0.75) +
   theme(axis.text = element_text(size = 18),

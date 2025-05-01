@@ -142,10 +142,11 @@ colnames(report.output) = columns
 report.output$CF <- CFs
 
 all.deltas <- read.csv(paste0(data.dir,"/Deltas.csv")) # Read in deltas file for all CFs
+all.deltas$Precip_in = all.deltas$Precip_in*30
 report.output$FullRangeTmean[1] <- min(all.deltas$Tmean_F) 
 report.output$FullRangeTmean[2] <- max(all.deltas$Tmean_F)
-report.output$FullRangePr[1] <- min(all.deltas$Precip_in)*30
-report.output$FullRangePr[2] <- max(all.deltas$Precip_in)*30
+report.output$FullRangePr[1] <- min(all.deltas$Precip_in)
+report.output$FullRangePr[2] <- max(all.deltas$Precip_in)
 report.output$`FullRangePr%`[1] <- (min(all.deltas$Precip_in)/merged$Annual.precipIn[1])*100
 report.output$`FullRangePr%`[2] <- (max(all.deltas$Precip_in)/merged$Annual.precipIn[1])*100
 report.output$CFTmean <- as.vector(t(merged_transpose_deltas[2,2:3])) # #s differ from full range
@@ -154,7 +155,7 @@ report.output$`CFPr%` <- (report.output$CFPr/merged$Annual.precipIn[1])*100
 
 ### # SWE table - SWE on, SWE off, mean SWE, peak SWE
 swe.data <- read.csv(paste0(data.dir,"/SWE.metrics.csv")) # Read in deltas file for all CFs
-swe.aggregate <- aggregate(as.matrix(swe.data[4:8])~CF,swe.data,mean)
+swe.aggregate <- aggregate(as.matrix(swe.data[4:8])~CF,swe.data,mean,na.rm=FALSE)
 write.csv(swe.aggregate,paste0(data.dir,"/","SWE.means.csv"),row.names=FALSE)
 
 swe.delta <- swe.aggregate %>%
@@ -167,7 +168,7 @@ report.output <- left_join(report.output,swe.delta,by="CF")
 soil.data <- read.csv(paste0(data.dir,"/soil.temp_ANN.csv")) |> 
   left_join(CF_GCM[,1:2]) |> 
   mutate(across(CF, ~ replace(.x, is.na(.x), "Historical")))
-  
+
 
 soil.aggregate <- aggregate(soil.temp~CF,soil.data,mean)
 write.csv(soil.aggregate,paste0(data.dir,"/","soil.means.csv"),row.names=FALSE)
