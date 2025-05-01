@@ -163,7 +163,7 @@ for (G in 1:length(GCMs)){
     fut_var_stars <- Reduce(c, fut_var) 
     fut_var_stars %>% mutate(pcp_in = pcp / 25.4) %>% dplyr::select(pcp_in) -> fut_var_stars
     
-    sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(historical.period)) # find sum
+    sum_hist <- st_apply(hist_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(historical.period)) # find sum -- nc data is avg daily for each month
     sum_fut <- st_apply(fut_var_stars, c("x", "y"), FUN=function(x) sum(x)/length(future.period))
     # delta <- sum_fut - sum_hist
     
