@@ -10,7 +10,7 @@ for (G in 1:length(GCMs)){
     
     print(paste0("extracting ", GCMs[G]))
 
-    # Createing stars objects ####
+    # Creating stars objects ####
 
       # HISTORICAL ----
 
