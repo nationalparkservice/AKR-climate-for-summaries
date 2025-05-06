@@ -14,10 +14,10 @@ rm(list = ls())
 
 library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(units); library(tidyr); library(lemon);library(ggpubr);library(gridExtra);library(grid); library(gtable); library(lubridate);library(terra);library(raster)
 
-SiteID <- "ALAG" #*UPDATE*
+SiteID <- "SITK" #*UPDATE*
 
-base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
-# base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
+# base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
+base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
 data.dir = paste0(base.dir,"/Data")
 plot.dir = paste0(base.dir,"/Figures")
 # plot.dir = "./Data/figures"
@@ -40,7 +40,7 @@ ak <- crop(topo, ext)
 ak2 <- projectRaster(ak, crs = CRS('+init=EPSG:3338')) # Alaska Albers 
 ak_df  <- as.data.frame(ak2, xy = TRUE) # this step is important to get it to plot in ggplot
 
-GCMs <- c("MRI-CGCM3.rcp85","CCSM4.rcp45")
+GCMs <- c("CCSM4.rcp85","MRI-CGCM3.rcp85")
 CFs <- c("Climate Future 1", "Climate Future 2")
 cols <- c("#6EB2D4","#CA0020")
 
@@ -95,10 +95,17 @@ delta[,5:8] = df.fut[,5:8] - df.hist[,5:8]
 
 ```{r seasonal plots, include=FALSE, results=hide, eval=TRUE}
 
-source(here::here("Code", "Plots", "map_monthly_dotplots_tmax.R"),echo = FALSE)
-source(here::here("Code", "Plots", "map_monthly_dotplots_tmin.R"),echo = FALSE)
-source(here::here("Code", "Plots", "map_monthly_dotplots_tmean.R"),echo = FALSE)
-source(here::here("Code", "Plots", "map_monthly_dotplots_pcp.R"),echo = FALSE)
+## If you are using spatial extraction, run this code
+# source(here::here("Code", "Plots", "map_monthly_dotplots_tmax.R"),echo = FALSE)
+# source(here::here("Code", "Plots", "map_monthly_dotplots_tmin.R"),echo = FALSE)
+# source(here::here("Code", "Plots", "map_monthly_dotplots_tmean.R"),echo = FALSE)
+# source(here::here("Code", "Plots", "map_monthly_dotplots_pcp.R"),echo = FALSE)
+
+## If you are using point-based (centroid) extraction, run this code
+source(here::here("Code", "Plots", "map_monthly_dotplots_tmax_point-based.R"),echo = FALSE)
+source(here::here("Code", "Plots", "map_monthly_dotplots_tmin_point-based.R"),echo = FALSE)
+source(here::here("Code", "Plots", "map_monthly_dotplots_tmean_point-based.R"),echo = FALSE)
+source(here::here("Code", "Plots", "map_monthly_dotplots_pcp_point-based.R"),echo = FALSE)
 
 ```
 
@@ -115,7 +122,10 @@ source(here::here("Code", "Plots", "maps_ts_plots_pcp.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_water.balance.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_SWE.precip.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_max.SWE.R"),echo = FALSE)
-source(here::here("Code", "Plots", "maps_ts_plots_MAMSON.SWE.R"),echo = FALSE)
+## If you are using spatial extraction, run this code
+# source(here::here("Code", "Plots", "maps_ts_plots_MAMSON.SWE.R"),echo = FALSE)
+## If you are using point-based (centroid) extraction, run this code
+source(here::here("Code", "Plots", "maps_ts_plots_MAMSON.SWE_point-based.R"),echo = FALSE)
 source(here::here("Code", "Plots", "maps_ts_plots_soil.temp.R"),echo = FALSE)
 # source(here::here("Code", "Plots", "maps_ts_plots_Pr99v2.R"),echo = FALSE) # not running for AK for now - takes very long to run and can get similar info from northern climate reports
 

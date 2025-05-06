@@ -8,9 +8,6 @@ DF = data.frame()
 grid_filelist = list.files(path = paste(met.dir,"daymet",sep='/'), pattern= '.nc', 
                            full.names = TRUE)
 
-# Convert to lat/lon before looping
-pt <- st_centroid(st_transform(park, 4326))  # Use WGS84 for curvilinear grids
-
 for(i in 1:length(grid_filelist)){
   yr = as.POSIXct(sub('.*\\met_', '', sub("\\..*", "", grid_filelist[i])), format="%Y")
   print(yr)

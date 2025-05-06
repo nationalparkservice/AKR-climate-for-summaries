@@ -35,7 +35,7 @@ historical.period <- as.character(seq(1950,1999,1))
 future.period <- as.character(seq(2035,2065,1))
 daymet.period <- as.character(seq(1980,2016,1))
 
-GCMs <- c("MRI-CGCM3.rcp45","CCSM4.rcp85")
+GCMs <- c("CCSM4.rcp85","MRI-CGCM3.rcp85")
 CFs <- c("Climate Future 1", "Climate Future 2")
 cols <- c("#6EB2D4","#CA0020")
 
@@ -53,6 +53,8 @@ nps_boundary <- st_read('./Data/nps_boundary/nps_boundary.shp')
 park <- filter(nps_boundary, UNIT_CODE == SiteID)
 shp <- st_transform(park, 3338)
 buff_shp <- st_buffer(shp,10000) #buffer shapefile to pick up any cell touching park in crop
+pt <- st_centroid(st_transform(park, 4326))  #centroid added for point-based extraction - Use WGS84 for curvilinear grids
+
 
 # huc <- st_read("C:/Users/arunyon/OneDrive - DOI/Documents/GIS/AK_HUC8/Kachemak_Tuxedni.shp")
 # shp <- st_transform(huc, 3338)
@@ -65,8 +67,14 @@ Loop through met GCM.rcp and summarize each variable
 ```{r Create met monthly variables, results=hide, eval=TRUE}
 memory.limit(size = 60000)
 
-source(here::here("Code", "Metric-development", "met","met-monthly-stars.R"),echo = FALSE) 
-source(here::here("Code", "Metric-development", "met","met-monthly-variables.R"),echo = FALSE)
+## If you are using spatial extraction, run this code
+# source(here::here("Code", "Metric-development", "met","met-monthly-stars.R"),echo = FALSE)
+## If you are using point-based (centroid) extraction, run this code
+source(here::here("Code", "Metric-development", "met","met-monthly-stars_point-based.R"),echo = FALSE)
+## If you are using spatial extraction, run this code
+# source(here::here("Code", "Metric-development", "met","met-monthly-variables.R"),echo = FALSE)
+## If you are using point-based (centroid) extraction, run this code
+source(here::here("Code", "Metric-development", "met","met-monthly-variables_point-based.R"),echo = FALSE)
 
 source(here::here("Code", "Metric-development", "met","Annual.tmeanF.R"),echo = FALSE) 
 source(here::here("Code", "Metric-development", "met","Annual.precipIn.R"),echo = FALSE) 
@@ -78,9 +86,12 @@ source(here::here("Code", "Metric-development", "met","Annual.precipIn.R"),echo 
 ```{r Create vic monthly variables, results=hide, eval=TRUE}
 memory.limit(size = 60000)
 
-source(here::here("Code", "Metric-development", "vic","vic-monthly-stars.R"),echo = FALSE) 
-source(here::here("Code", "Metric-development", "vic","max.SWE.R"),echo = FALSE) 
-source(here::here("Code", "Metric-development", "vic","MAMSON.SWE.R"),echo = FALSE) 
+source(here::here("Code", "Metric-development", "vic","vic-monthly-stars.R"),echo = FALSE)
+source(here::here("Code", "Metric-development", "vic","max.SWE.R"),echo = FALSE)
+## If you are using spatial extraction, run this code
+# source(here::here("Code", "Metric-development", "vic","MAMSON.SWE.R"),echo = FALSE)
+## If you are using point-based (centroid) extraction, run this code
+source(here::here("Code", "Metric-development", "vic","MAMSON.SWE_point-based.R"),echo = FALSE)
 source(here::here("Code", "Metric-development", "vic","water.balance.R"),echo = FALSE)
 source(here::here("Code", "Metric-development", "vic","SWE.precip.R"),echo = FALSE)
 source(here::here("Code", "Metric-development", "vic","soil.temp.R"),echo = FALSE)
