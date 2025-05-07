@@ -75,13 +75,7 @@ monthly.met.filter <- monthly.met %>%
 monthly.met.final <- monthly.met.filter[, !names(monthly.met.filter) %in% c("Period", "CF")]
 
 ## met daily data
-
-daily.met.avg <- daily.met %>%
-  group_by(GCM) %>%
-  summarize(across(everything(), ~ first(na.omit(.))), .groups = "drop")
-
-# Drop "year" column
-daily.met.final <- daily.met.avg[, !names(daily.met.avg) %in% c("year")]
+daily.met.avg <- aggregate(.~GCM,daily.met[,c(1,3:9)], mean, na.action=na.pass)
 
 ###############################################################################
 
@@ -89,22 +83,18 @@ daily.met.final <- daily.met.avg[, !names(daily.met.avg) %in% c("year")]
 
 # Merge all data frames
 merged <- merge(annual.final, monthly.met.final, by = c("GCM")) %>%
-  merge(daily.met.final, by = "GCM") 
-
-# Name rows according to GCMs
-rownames(merged)[rownames(merged) == "1"] <- "Climate Future 2" # CCSM4.rcp85
-rownames(merged)[rownames(merged) == "2"] <- "Historical" # Daymet
-rownames(merged)[rownames(merged) == "3"] <- "Climate Future 1" # MRI-CGCM3.rcp45
+  merge(daily.met.avg, by = "GCM") %>% merge(CF_GCM[1:2],by = "GCM",all=T)
+merged$CF[is.na(merged$CF)] <- "Historical"
 
 # Drop GCM columns (can't have when calculating deltas below)
-merged <- merged %>% dplyr::select(-GCM)
-
-# Reorder rows
-merged <- merged[c("Historical", "Climate Future 1", "Climate Future 2"), ]
-
+merged <- merged %>% dplyr::select(-GCM) %>% 
+  arrange(factor(CF, levels=c("Historical", "Climate Future 1", "Climate Future 2"))) %>% # Reorder rows
+  tibble::column_to_rownames(var="CF") 
+  
 # Transpose data frame
 merged_transpose <- t(merged)
-merged_transpose <- data.frame(merged_transpose, stringsAsFactors=FALSE) # converts back to data frame
+merged_transpose <- data.frame(merged_transpose, stringsAsFactors=FALSE)  # converts back to data frame
+# names(merged_transpose) <- gsub("\\.", " ", names(merged_transpose)) #use this if you wanted to get rid of "." in names
 
 ### Write .csv of absolute values ----
 write.csv(merged_transpose,paste0(data.dir,"/","Metrics_Table_Absolute.csv"),row.names=TRUE)
@@ -168,7 +158,7 @@ report.output <- left_join(report.output,swe.delta,by="CF")
 soil.data <- read.csv(paste0(data.dir,"/soil.temp_ANN.csv")) |> 
   left_join(CF_GCM[,1:2]) |> 
   mutate(across(CF, ~ replace(.x, is.na(.x), "Historical")))
-
+  
 
 soil.aggregate <- aggregate(soil.temp~CF,soil.data,mean)
 write.csv(soil.aggregate,paste0(data.dir,"/","soil.means.csv"),row.names=FALSE)
