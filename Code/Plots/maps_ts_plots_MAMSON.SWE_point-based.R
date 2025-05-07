@@ -91,29 +91,29 @@ ts <- annotate_figure(ts, top = text_grob(Capitalized.title,
 ggsave(paste0(var,"_ANN_ts.png"), plot = ts, width = 15, height = 7, scale = 1, path = plot.dir,bg="white")
 
 
-#### Maps and ts plot
-g <- ggarrange(maps, ts, nrow=2)
-g
-
-# ggsave(paste0(var,"_ANN_maps_ts.png"), plot = g, width = 15, height = 5.25, scale = 1, path = plot.dir,bg="white")
-
-
-#### Maps, ts, and table plot
-delta.var <- means
-delta.var$var[1:2] <- delta.var$var[1:2] - delta.var$var[3]
-delta.var$var <- signif(delta.var$var, digits = 1)
-
-table <- tableGrob(delta.var, rows = NULL, cols=NULL)
-table <- annotate_figure(table,
-                top = text_grob("Historical = absolute value \n CFs = change values", color = "black",
-                                 face = "italic", size = 12))
-# ggsave(paste0(var,"_ANN_ts_table.png"), plot = table, width = 15, height = 5, scale = 1, path = plot.dir,bg="white")
-
-tsplots <- grid.arrange(ts, table, ncol = 2, widths = c(4,1), clip = FALSE)
-# ggsave(paste0(var,"_ANN_ts_plots.png"), plot = tsplots, width = 15, height = 5, scale = 1, path = plot.dir,bg="white")
-
-g <- ggarrange(maps, tsplots, nrow=2)
-g
-
-ggsave(paste0(var,"_ANN.png"), width = 15, height = 9, path = plot.dir,bg="white")
+# #### Maps and ts plot
+# g <- ggarrange(maps, ts, nrow=2)
+# g
+# 
+# # ggsave(paste0(var,"_ANN_maps_ts.png"), plot = g, width = 15, height = 5.25, scale = 1, path = plot.dir,bg="white")
+# 
+# 
+# #### Maps, ts, and table plot
+# delta.var <- means
+# delta.var$var[1:2] <- delta.var$var[1:2] - delta.var$var[3]
+# delta.var$var <- signif(delta.var$var, digits = 1)
+# 
+# table <- tableGrob(delta.var, rows = NULL, cols=NULL)
+# table <- annotate_figure(table,
+#                 top = text_grob("Historical = absolute value \n CFs = change values", color = "black",
+#                                  face = "italic", size = 12))
+# # ggsave(paste0(var,"_ANN_ts_table.png"), plot = table, width = 15, height = 5, scale = 1, path = plot.dir,bg="white")
+# 
+# tsplots <- grid.arrange(ts, table, ncol = 2, widths = c(4,1), clip = FALSE)
+# # ggsave(paste0(var,"_ANN_ts_plots.png"), plot = tsplots, width = 15, height = 5, scale = 1, path = plot.dir,bg="white")
+# 
+# g <- ggarrange(maps, tsplots, nrow=2)
+# g
+# 
+# ggsave(paste0(var,"_ANN.png"), width = 15, height = 9, path = plot.dir,bg="white")
 

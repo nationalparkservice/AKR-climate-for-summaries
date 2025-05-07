@@ -29,6 +29,7 @@ swe_agg <- aggregate(swe_vals, by = by_t, FUN = mean)
 time_vals <- st_get_dimension_values(swe_agg, "time")
 
 df <- data.frame(Year = time_vals, MAMSON.SWE = as.vector(swe_agg$SWEf), GCM = "Daymet")
+df$Year <- substr(df$Year, 1, 4)
 DF <- rbind(DF, df)
 
 # GCMs ----
@@ -55,6 +56,7 @@ for (G in seq_along(GCMs)) {
   time_vals <- st_get_dimension_values(fut_agg, "time")
   
   df <- data.frame(Year = time_vals, MAMSON.SWE = as.vector(fut_agg$SWEf), GCM = GCMs[G])
+  df$Year <- substr(df$Year, 1, 4)
   DF <- rbind(DF, df)
   
   # Save mean delta

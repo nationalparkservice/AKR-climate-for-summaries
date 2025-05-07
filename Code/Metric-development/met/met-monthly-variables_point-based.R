@@ -9,8 +9,7 @@ monthly.variables <- c("DJF.tmeanF", "MAM.tmeanF", "JJA.tmeanF", "SON.tmeanF",
                        "DJF.tminF", "MAM.tminF", "JJA.tminF", "SON.tminF",
                        "DJF.precipIn", "MAM.precipIn", "JJA.precipIn", "SON.precipIn")
 
-CF_GCM <- data.frame(CF = c("Climate Future 1", "Climate Future 2"),
-                     GCM = c("CCSM4.rcp85", "MRI-CGCM3.rcp85"))
+CF_GCM <- data.frame(CF=CFs,GCM=GCMs,CF_col=cols)
 
 DF.hist <- CF_GCM[,1:2]; DF.hist$Period <- "Historical"; DF.hist[,monthly.variables] <- NA
 DF.fut  <- CF_GCM[,1:2]; DF.fut$Period  <- "Future";     DF.fut[,monthly.variables]  <- NA

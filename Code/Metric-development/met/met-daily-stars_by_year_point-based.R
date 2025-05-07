@@ -46,7 +46,7 @@ for(i in 1:length(grid_filelist)){
   
   # Winter-specific aggregates
   by_t = "1 month"
-  under32.month <- aggregate(grid_threshold %>% select(under32), by = by_t, FUN = sum)
+  under32.month <- aggregate(grid_threshold %>% dplyr::select(under32), by = by_t, FUN = sum)
   
   df$WSF.below32 <- sum(under32.month$under32[9:12], na.rm = TRUE)
   df$W.under32   <- sum(under32.month$under32[12], na.rm = TRUE)
@@ -108,7 +108,7 @@ for (G in 1:length(GCMs)) {
     
     # Winter season
     by_t = "1 month"
-    under32.month <- aggregate(fut_threshold %>% select(under32), by = by_t, FUN = sum)
+    under32.month <- aggregate(fut_threshold %>% dplyr::select(under32), by = by_t, FUN = sum)
     df$WSF.below32 <- sum(under32.month$under32[9:12], na.rm = TRUE)
     df$W.under32   <- sum(under32.month$under32[12], na.rm = TRUE)
     

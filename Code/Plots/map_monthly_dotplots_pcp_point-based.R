@@ -78,34 +78,34 @@ scale.max = max(c(DJF.cf1, MAM.cf1, JJA.cf1, SON.cf1,
 # seasons <- grid.arrange(djf,mam,jja,son,ncol=1)
 # 
 # maps <- grid.arrange(seasons,maps.all,ncol = 2, widths = c(1,15))
-
-
-################################### MONTHLY DOT PLOT ##################
-
-dotplot <- ggplot(delta,aes(x=(eval(parse(text=delta.var))),y=season,fill=CF)) +
-  geom_vline(xintercept=0, linetype="dashed", color = "black") + 
-  geom_point(stat="identity",size=8,colour="black",aes(fill = factor(CF), shape = factor(CF))) +
-  theme(axis.text=element_text(size=16),    #Text size for axis tick mark labels
-        axis.title.x=element_blank(),               #Text size and alignment for x-axis label
-        plot.title=element_blank(),
-        # axis.title.y=element_text(size=16, vjust=0.5,  margin=margin(t=20, r=20, b=20, l=20)),              #Text size and alignment for y-axis label
-        # plot.title=element_text(size=20, vjust=0.5, face="bold", margin=margin(t=20, r=20, b=20, l=20)),      #Text size and alignment for plot title
-        legend.title=element_text(size=16),                                                                    #Text size of legend category labels
-        legend.text=element_text(size=14),                                                                   #Text size of legend title
-        legend.position = "bottom")  +
-  labs(title = paste0("Change in seasonal ",long.title), 
-       x = "Change (°F)", y = "") +
-  scale_fill_manual(name="",values =cols) +
-  scale_shape_manual(name="",values = c(21,22,23)) +
-  scale_y_discrete(limits=rev)
-dotplot
-
-g <- grid.arrange(maps, dotplot, ncol = 2, widths = c(6, 4), clip = FALSE)
-
-ann <- annotate_figure(g, top = text_grob(paste0("Change in seasonal ", long.title), 
-                                      face = "bold", size = 20))
-
-ggsave(paste0("seasonal_",var,".png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
+# 
+# 
+# ################################### MONTHLY DOT PLOT ##################
+# 
+# dotplot <- ggplot(delta,aes(x=(eval(parse(text=delta.var))),y=season,fill=CF)) +
+#   geom_vline(xintercept=0, linetype="dashed", color = "black") + 
+#   geom_point(stat="identity",size=8,colour="black",aes(fill = factor(CF), shape = factor(CF))) +
+#   theme(axis.text=element_text(size=16),    #Text size for axis tick mark labels
+#         axis.title.x=element_blank(),               #Text size and alignment for x-axis label
+#         plot.title=element_blank(),
+#         # axis.title.y=element_text(size=16, vjust=0.5,  margin=margin(t=20, r=20, b=20, l=20)),              #Text size and alignment for y-axis label
+#         # plot.title=element_text(size=20, vjust=0.5, face="bold", margin=margin(t=20, r=20, b=20, l=20)),      #Text size and alignment for plot title
+#         legend.title=element_text(size=16),                                                                    #Text size of legend category labels
+#         legend.text=element_text(size=14),                                                                   #Text size of legend title
+#         legend.position = "bottom")  +
+#   labs(title = paste0("Change in seasonal ",long.title), 
+#        x = "Change (°F)", y = "") +
+#   scale_fill_manual(name="",values =cols) +
+#   scale_shape_manual(name="",values = c(21,22,23)) +
+#   scale_y_discrete(limits=rev)
+# dotplot
+# 
+# g <- grid.arrange(maps, dotplot, ncol = 2, widths = c(6, 4), clip = FALSE)
+# 
+# ann <- annotate_figure(g, top = text_grob(paste0("Change in seasonal ", long.title), 
+#                                       face = "bold", size = 20))
+# 
+# ggsave(paste0("seasonal_",var,".png"), plot = ann, width = 15, height = 9, path = plot.dir,bg="white")
 
 
 ################################### MONTHLY BAR CHART ##################
