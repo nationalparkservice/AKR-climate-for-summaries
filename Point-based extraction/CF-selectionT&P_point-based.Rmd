@@ -1,0 +1,221 @@
+---
+title: "Selecting CFs for park"
+author: "Amber Runyon"
+date: "6/29/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Initials
+
+To run:
+1. Update SiteID
+2. Run through data extraction (takes 30-45 mins)
+3. At end and select CFs after completed
+
+```{r Initials, echo=FALSE, message=FALSE, warning=FALSE}
+
+rm(list = ls())
+
+library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(ggbiplot)
+
+SiteID <- "KLGO" #*UPDATE*
+
+data.dir <- "E:/NCAR_AK/met/monthly/BCSD/" #*UPDATE* drive letter, if needed
+vic.dir <- "E:/NCAR_AK/vic_hydro/monthly/BCSD" #*UPDATE* drive letter, if needed
+# plot.dir <- paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) #*UPDATE*
+# plot.dir <- paste0("C:/Users/arunyon/3D Objects/Local-files/RCF_Testing/",SiteID)
+plot.dir <- paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
+
+dir.create(plot.dir,showWarnings=FALSE)
+
+FigDir <- paste0(plot.dir,"/Figures")
+dir.create(FigDir,showWarnings=FALSE)
+DataOut <- paste0(plot.dir,"/Data")
+dir.create(DataOut,showWarnings=FALSE)
+
+historical.period <- as.character(seq(1950,1999,1))
+future.period <- as.character(seq(2035,2065,1))
+daymet.period <- as.character(seq(1980,2016,1))
+
+GCMs <- list.files(path = data.dir)
+RCPs <- c("rcp45", "rcp85")
+GCM.RCP <- sort(apply(expand.grid(GCMs, RCPs), 1, paste, collapse="."))
+
+```
+
+## Load Spatial Data
+
+```{r Load spatial data}
+
+# Spatial
+nps_boundary <- st_read('./Data/nps_boundary/nps_boundary.shp')
+park <- filter(nps_boundary, UNIT_CODE == SiteID)
+shp <- st_transform(park, 3338)
+buff_shp <- st_buffer(shp,10000) #buffer shapefile to pick up any cell touching park in crop
+
+# #Unique
+# huc <- st_read("C:/Users/arunyon/OneDrive - DOI/Documents/GIS/AK_HUC8/Kachemak_Tuxedni.shp")
+# shp <- st_transform(huc, 3338)
+
+```
+Create empty dataframes that will store climate summaries for each GCM.rcp as loop through data
+```{r Create empty dataframes}
+
+variables <- c("Tmean_F","Precip_in")
+
+Baseline_Means <- as.data.frame(matrix(data=NA,nrow=length(GCMs)*length(RCPs),ncol=length(variables)+2))
+names(Baseline_Means) <- c("GCM", "RCP", variables)
+
+Future_Means <- as.data.frame(matrix(data=NA,nrow=length(GCMs)*length(RCPs),ncol=length(variables)+2))
+names(Future_Means) <- c("GCM", "RCP", variables)
+
+Daymet_Means <- as.data.frame(matrix(data=NA,ncol=length(variables)+2))
+names(Daymet_Means) <- c("GCM", "RCP", variables)
+
+Deltas <- as.data.frame(matrix(data=NA,nrow=length(GCMs)*length(RCPs),ncol=length(variables)+2))
+names(Deltas) <- c("GCM", "RCP", variables)
+
+
+```
+
+Loop through met GCM.rcp and summarize each variable
+
+```{r Create met variables, results=hide, eval=TRUE}
+memory.limit(size = 60000)
+
+source(here::here("Code", "Metric-development", "met-T1-variables-T&P.R"),echo = FALSE) 
+# met Monthly dset is avg daily for each month - mutiply by 30 to get monthly sum -- done below
+
+write.csv(Baseline_Means,paste0(DataOut,"/Baseline_Means.csv"),row.names=FALSE)
+write.csv(Future_Means,paste0(DataOut,"/Future_Means.csv"),row.names=FALSE)
+write.csv(Deltas,paste0(DataOut,"/Deltas.csv"),row.names=FALSE)
+
+```
+
+
+Run PCA and create scatterplots for T1 variables
+```{r Run PCA}
+# Run scatterplot
+## REDO PLOT AND MULTIPLY PCP BY 30 
+# Baseline_Means <- read.csv(paste0(DataOut,"/Baseline_Means.csv"))
+# Future_Means <- read.csv(paste0(DataOut,"/Future_Means.csv"))
+Deltas <- read.csv(paste0(DataOut,"/Deltas.csv"))
+Deltas$Precip_in = Deltas$Precip_in*30
+
+
+PlotWidth = 15
+PlotHeight = 9
+
+scatterplot <- function(df, X, Y, title,xaxis,yaxis){
+  plot <- ggplot(data=df, aes(x={{ X }}, y={{ Y }}))  +
+  geom_text_repel(aes(label=paste(GCM,RCP,sep="."))) +
+  geom_point(colour="black",size=4) + 
+  theme(axis.text=element_text(size=18),
+        axis.title.x=element_text(size=18,vjust=-0.2),
+        axis.title.y=element_text(size=18,vjust=0.2),
+        plot.title=element_text(size=18,face="bold",vjust=2,hjust=0.5),
+        legend.text=element_text(size=18), legend.title=element_text(size=16),
+        panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) + 
+  ###
+  labs(title =title, 
+       x = xaxis, # Change
+       y = yaxis) + #change
+  scale_color_manual(name="Scenarios", values=c("black")) +
+  # scale_fill_manual(name="Scenarios",values = c("black")) + 
+  theme(legend.position="none") 
+  plot
+}
+scatterplot(df=Deltas,X=Tmean_F,Y=Precip_in,title=paste0("Changes in climate means in 2050 by GCM run at ", SiteID),
+            xaxis="Changes in annual average temperature (\u00B0F)",
+            yaxis="Changes in annual average precipitation (in)")
+
+ggsave("Scatter_Tmean-pcp.png", path = FigDir, width = PlotWidth, height = PlotHeight,bg="white")
+
+
+# PCA df setup AND MRI
+head(Deltas)
+Deltas.rownames <- Deltas[,-c(1:2)]
+rownames(Deltas.rownames) <- paste(Deltas$GCM,Deltas$RCP,sep=".")
+
+
+PCA <- prcomp(Deltas.rownames[,c(1:length(Deltas.rownames))], center = TRUE,scale. = TRUE)
+
+head(PCA$rotation)
+head(PCA$x)
+summary(PCA)
+
+str(PCA)
+
+ggbiplot(PCA, labels=rownames(Deltas.rownames))
+
+ggsave("PCA-plot.png", path = FigDir, width = PlotWidth, height = PlotHeight)
+
+# Select PCs
+pca.df<-as.data.frame(PCA$x)
+
+PC1 <- factor(c(rownames(pca.df)[which.min(pca.df$PC1)],rownames(pca.df)[which.max(pca.df$PC1)]))
+PC2<- c(rownames(pca.df)[which.min(pca.df$PC2)],rownames(pca.df)[which.max(pca.df$PC2)])
+
+
+#### MANUALLY SET CFS
+CFs <- c("MRI-CGCM3.rcp45","CCSM4.rcp85") #*UPDATE*
+# colors2 <-  c("#6EB2D4", "#CA0020")
+colors2 <- c("#6EB2D4","#CA0020") #*UPDATE*
+
+#Updated Scatter
+scatterplot(df=Deltas,X=Tmean_F,Y=Precip_in,title="Tmean vs Precip scatterplot",xaxis="Avg Annual Temp (F)",yaxis="Avg Annual Precip (in)") + geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[1])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[1])])), shape=21, size=12, stroke=3, colour=colors2[1]) +
+  geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[2])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[2])])), shape=22, size=12, stroke=3, colour=colors2[2]) 
+
+  # geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[3])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[3])])), shape=23, size=12, stroke=3, colour=colors2[3]) 
+
+ggsave("Selected-CFs-scatterplot.png", width = PlotWidth, height = PlotHeight, path = FigDir,bg="white")
+
+#dots only
+scatterplot_points <- function(df, X, Y, title,xaxis,yaxis){
+  plot <- ggplot(data=df, aes(x={{ X }}, y={{ Y }}))  +
+  geom_point(colour="black",size=4) + 
+  theme(axis.text=element_text(size=18),
+        axis.title.x=element_text(size=18,vjust=-0.2),
+        axis.title.y=element_text(size=18,vjust=0.2),
+        plot.title=element_text(size=18,face="bold",vjust=2,hjust=0.5),
+        legend.text=element_text(size=18), legend.title=element_text(size=16),
+        panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank()) + 
+  ###
+  labs(title =title, 
+       x = xaxis, # Change
+       y = yaxis) + #change
+  scale_color_manual(name="Scenarios", values=c("black")) +
+  # scale_fill_manual(name="Scenarios",values = c("black")) + 
+  theme(legend.position="none") 
+  plot
+}
+#Updated Scatter
+scatterplot_points(df=Deltas,X=Tmean_F,Y=Precip_in,title="Tmean vs Precip scatterplot",xaxis="Avg Annual Temp (F)",yaxis="Avg Annual Precip (in)") + geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[1])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[1])])), shape=21, size=12, stroke=3, colour=colors2[1]) +
+  geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[2])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[2])])), shape=22, size=12, stroke=3, colour=colors2[2]) 
+
+  # geom_point(aes(x=mean(Tmean_F[which(paste(GCM,RCP,sep=".")==CFs[3])]), y=mean(Precip_in[which(paste(GCM,RCP,sep=".")==CFs[3])])), shape=23, size=12, stroke=3, colour=colors2[3]) 
+
+ggsave("Selected-CFs-scatterplot-pointOnly.png", width = PlotWidth, height = PlotHeight, path = FigDir,bg="white")
+
+
+```
+
+```{r Run NCR comparisons}
+
+# *UPDATE* - Uncomment to run NCR / CCRP comparisons on historical and future T & P averages
+
+# source(here::here("Code", "NCR-comparison", "NCR-CF-comparison.R"),echo = FALSE) 
+
+
+```
