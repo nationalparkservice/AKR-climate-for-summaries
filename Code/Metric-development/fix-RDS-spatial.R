@@ -1,5 +1,6 @@
 # Fixes deltas.RDS files so they compare future to Daymet instead of to historical modeled
-library(stars);library(dplyr);library(ggplot2);library(ggthemes); library(readxl); library(viridis);library(here);library(ggrepel);library(rlang);library(units)
+library(stars);library(dplyr);library(ggplot2);library(ggthemes); library(readxl); library(viridis);library(here);
+library(ggrepel);library(rlang);library(units)
 
 rm(list=ls())
 root.dir <- "C:/Users/arunyon/OneDrive - DOI/AKR-CFs/"
@@ -23,8 +24,6 @@ data.dir <- paste0(root.dir,SiteID,"/Data/")
 # Set projections
 GCMs <- unlist(projections[which(projections$SiteID == park),][2:3])
 CF_GCM <- data.frame(CF=CFs,GCM=GCMs,CF_col=cols)
-
-# Read in shapefile ??
 
 
 #### Tmean
@@ -80,6 +79,12 @@ for (G in 1:length(GCMs)){
   delta <- mean_fut - flip
   saveRDS(delta, file = paste(data.dir,paste(var,gcm,rcp,sep="_"),sep="/"))
 }
+
+
+
+
+
+
 
 
 
