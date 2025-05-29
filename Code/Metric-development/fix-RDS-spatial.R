@@ -139,6 +139,71 @@ for (G in 1:length(GCMs)){
   
 }
 
+#
+#
+#
+
+# Annual maxSWE ----
+var = "max.SWE"
+
+cropped_st_grid <- readRDS(paste(data.dir,"cropped_st_Daymet_ws",sep="/"))
+grid_var <- list()
+
+for(F in 1:length(cropped_st_grid)){
+  s = cropped_st_grid[[F]]
+  s = dplyr::select(s, SWE)
+  if (is.na(summary(s$SWE)[4])) {
+    grid_var[[F]] = grid_var[[F-1]]
+    st_dimensions(grid_var[[F]])[3] = st_dimensions(s)[3]
+  } else{
+    grid_var[[F]] = s[,,,] #all months
+  }
+}
+
+grid_var_stars <- Reduce(c, grid_var)
+grid_var_stars$SWE <- drop_units(grid_var_stars$SWE)
+grid_var_stars %>% mutate(SWEf = SWE / 25.4) %>% dplyr::select(SWEf) -> grid_var_stars
+
+# st_get_dimension_values(grid_var_stars,"time") #how get time dimension values
+by_t = "1 year"
+grid <- aggregate(grid_var_stars, by = by_t, FUN = function(x) max(x)) # Doesn't work in lat/long. Must be projected. Removes units from tmax. Also aggregates to a lower resolution.
+
+mean_grid <- st_apply(grid, c("x", "y"), mean)
+saveRDS(mean_grid, file = paste(data.dir,paste(var,"Daymet",sep="_"),sep="/"))
+
+for (G in 1:length(GCMs)){
+  gcm = sub("\\..*", "", GCMs[G])
+  rcp = sub('.*\\.', '', GCMs[G])
+
+  cropped_st_fut <- readRDS(paste(data.dir,paste0("cropped_st_fut_ws_",gcm,"_",rcp),sep="/"))
+  
+  fut_var <- list()
+  for(F in 1:length(cropped_st_fut)){
+    s = cropped_st_fut[[F]]
+    s = dplyr::select(s, SWE)
+    if (is.na(summary(s$SWE)[4])) {
+      fut_var[[F]] = fut_var[[F-1]]
+      st_dimensions(fut_var[[F]])[3] = st_dimensions(s)[3]
+    } else{
+      fut_var[[F]] = s[,,,] #all months
+    }
+  }
+  
+  fut_var_stars <- Reduce(c, fut_var)
+  fut_var_stars$SWE <- drop_units(fut_var_stars$SWE)
+  fut_var_stars %>% mutate(SWEf = SWE / 25.4) %>% dplyr::select(SWEf) -> fut_var_stars
+  
+  fut <- aggregate(fut_var_stars, by = by_t, FUN = function(x) max(x)) # Doesn't work in lat/long. Must be projected. Removes units from tmax. Also aggregates to a lower resolution.
+  fut <- fut[,1:length(future.period),,]
+ 
+  mean_fut <- st_apply(fut, c("x", "y"), mean)
+  mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
+  flip <- st_flip(mean_fut2, "y") #flip Daymet
+  
+  delta <- mean_fut - mean_hist
+  saveRDS(delta, file = paste(data.dir,paste(var,gcm,rcp,sep="_"),sep="/"))
+  
+}
 
 
 
