@@ -16,8 +16,8 @@ library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis
 
 SiteID <- "SITK" #*UPDATE*
 
-# base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
-base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
+base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
+# base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
 data.dir = paste0(base.dir,"/Data")
 plot.dir = paste0(base.dir,"/Figures")
 # plot.dir = "./Data/figures"
