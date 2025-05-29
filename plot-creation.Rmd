@@ -32,12 +32,12 @@ park_ext <- st_bbox(filter(nps_boundary, UNIT_CODE == SiteID))
 # shp <- st_transform(huc, 3338)
 
 # insert topo
-topo <- stack('./Data/nps_boundary/HYP_HR_SR_W/HYP_HR_SR_W.tif') # read in as stack so can see RBG layers
+topo <- raster::stack('./Data/nps_boundary/HYP_HR_SR_W/HYP_HR_SR_W.tif') # read in as stack so can see RBG layers
 # shp <- st_transform(huc, st_crs(topo))
-ext <- extent(park_ext$xmin, park_ext$xmax, park_ext$ymin, park_ext$ymax) # extent defined by lat/long
+ext <- raster::extent(park_ext$xmin, park_ext$xmax, park_ext$ymin, park_ext$ymax) # extent defined by lat/long
 ak <- crop(topo, ext)
 # plotRGB(ak)
-ak2 <- projectRaster(ak, crs = CRS('+init=EPSG:3338')) # Alaska Albers 
+ak2 <- raster::projectRaster(ak, crs = st_crs(3338)$wkt) # Alaska Albers 
 ak_df  <- as.data.frame(ak2, xy = TRUE) # this step is important to get it to plot in ggplot
 
 GCMs <- c("CCSM4.rcp85","MRI-CGCM3.rcp85")
