@@ -197,10 +197,8 @@ for (G in 1:length(GCMs)){
   fut <- fut[,1:length(future.period),,]
  
   mean_fut <- st_apply(fut, c("x", "y"), mean)
-  mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
-  flip <- st_flip(mean_fut2, "y") #flip Daymet
   
-  delta <- mean_fut - flip
+  delta <- mean_fut - mean_grid
   saveRDS(delta, file = paste(data.dir,paste(var,gcm,rcp,sep="_"),sep="/"))
   
 }
@@ -264,10 +262,10 @@ for (G in 1:length(GCMs)){
   fut <- fut[,1:length(future.period),,]
  
   mean_fut <- st_apply(fut, c("x", "y"), mean)
-  mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
-  flip <- st_flip(mean_fut2, "y") #flip Daymet
+  # mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
+  # flip <- st_flip(mean_fut2, "y") #flip Daymet
   
-  delta <- mean_fut - flip
+  delta <- mean_fut - mean_grid
     saveRDS(delta, file = paste(data.dir,paste(var,gcm,rcp,sep="_"),sep="/"))
   
 }
@@ -332,10 +330,10 @@ for (G in 1:length(GCMs)){
   fut <- fut[,1:length(future.period),,]
  
   mean_fut <- st_apply(fut, c("x", "y"), mean)
-  mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
-  flip <- st_flip(mean_fut2, "y") #flip Daymet
+  # mean_fut2 <- mean_fut %>% mutate(grid = as.vector(mean_grid$mean)) %>% dplyr::select(grid) #This is some fuckery that has to be done bececause Daymet grid is flipped somehow, puts it on same grid
+  # flip <- st_flip(mean_fut2, "y") #flip Daymet
   
-  delta <- mean_fut - flip
+  delta <- mean_fut - mean_grid
   saveRDS(delta, file = paste(data.dir,paste(var,gcm,rcp,sep="_"),sep="/"))
   
 }
