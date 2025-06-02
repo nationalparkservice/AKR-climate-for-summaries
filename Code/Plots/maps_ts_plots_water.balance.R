@@ -36,7 +36,7 @@ map.plot <- function(data,title,xaxis,metric,col){
   ggplot() + 
     geom_raster(data = ak_df ,aes(x = x, y = y,alpha=HYP_HR_SR_W_1), show.legend=FALSE) +
     geom_stars(data = data, alpha = 0.8) + 
-    geom_sf(data = shp, aes(), fill = NA) + 
+    geom_sf(data = shp, aes(), fill = NA, color = "black") + 
     scale_fill_viridis(direction=1, option = scale,
                        guide = guide_colorbar(title.position = "top", title.hjust = 0.5),
                        limits = c(scale.min, scale.max), oob = scales::squish) + #mako for WB delta
@@ -53,8 +53,8 @@ map.plot <- function(data,title,xaxis,metric,col){
     labs(fill = paste0("Change in total annual water balance (in/year)"))
 }
 
-cf1.plot <- map.plot(data=readRDS(CF1.ls),title=CFs[1],metric=paste0("Change in total annual water balance (in/year)"),col=cols[1])
-cf2.plot <- map.plot(data=readRDS(CF2.ls),title=CFs[2],metric=paste0("Change in total annual water balance (in/year)"),col=cols[2])
+cf1.plot <- map.plot(data=cf1,title=CFs[1],metric=paste0("Change in total annual water balance (in/year)"),col=cols[1])
+cf2.plot <- map.plot(data=cf2,title=CFs[2],metric=paste0("Change in total annual water balance (in/year)"),col=cols[2])
 # cf3.plot <- map.plot(data=readRDS(CF3.ls),title=CFs[3],metric=long.title,col=cols[3])
 
 maps <- grid_arrange_shared_legend(cf1.plot, cf2.plot,  ncol = 2, nrow = 1, position = "bottom",
@@ -98,10 +98,10 @@ g
 # ggsave(paste0(var,"_ANN_maps_ts.png"), plot = g, width = 15, height = 5.25, scale = 1, path = plot.dir,bg="white")
 
 
-#### Maps, ts, and table plot
+#### Maps, ts, and table plo1
 delta.var <- means
-delta.var$var[1:2] <- delta.var$var[1:2] - delta.var$var[3]
-delta.var$var <- signif(delta.var$var, digits = 1)
+delta.var$var[2:3] <- delta.var$var[2:3] - delta.var$var[1]
+delta.var$var <- signif(delta.var$var, digits = 3)
 
 table <- tableGrob(delta.var, rows = NULL, cols=NULL)
 table <- annotate_figure(table,
