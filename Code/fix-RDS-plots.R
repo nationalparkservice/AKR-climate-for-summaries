@@ -1,0 +1,93 @@
+rm(list = ls())
+
+library(stars);library(dplyr);library(ggplot2);library(ggthemes);library(viridis);library(here);library(ggrepel);library(rlang);library(units); library(tidyr); library(lemon);library(ggpubr);library(gridExtra);library(grid); library(gtable); library(lubridate);library(terra);library(raster)
+
+SiteID <- "YUCH" #*UPDATE*
+
+base.dir = paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/",SiteID) 
+# base.dir = paste0("C:/Users/brobb/OneDrive - DOI/Projects/AKR_CFs/AKR-CFs/",SiteID) #*UPDATE*
+data.dir = paste0(base.dir,"/Data")
+plot.dir = paste0(base.dir,"/Figures")
+# plot.dir = "./Data/figures"
+
+nps_boundary <- st_read('./Data/nps_boundary/nps_boundary.shp')
+park <- filter(nps_boundary, UNIT_CODE == SiteID)
+shp <- st_transform(park, 3338)
+park_ext <- st_bbox(filter(nps_boundary, UNIT_CODE == SiteID))
+
+# #Unique
+# huc <- st_read("C:/Users/arunyon/OneDrive - DOI/Documents/GIS/AK_HUC8/Kachemak_Tuxedni.shp")
+# shp <- st_transform(huc, 3338)
+
+# insert topo
+topo <- raster::stack('./Data/nps_boundary/HYP_HR_SR_W/HYP_HR_SR_W.tif') # read in as stack so can see RBG layers
+# shp <- st_transform(huc, st_crs(topo))
+ext <- raster::extent(park_ext$xmin, park_ext$xmax, park_ext$ymin, park_ext$ymax) # extent defined by lat/long
+ak <- crop(topo, ext)
+# plotRGB(ak)
+ak2 <- raster::projectRaster(ak, crs = st_crs(3338)$wkt) # Alaska Albers 
+ak_df  <- as.data.frame(ak2, xy = TRUE) # this step is important to get it to plot in ggplot
+
+projections <- read_excel(paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/", "AKCFs-Projections-used.xlsx"))
+CFs <- c("Climate Future 1", "Climate Future 2")
+cols <- c("#6EB2D4","#CA0020")
+sid = SiteID
+GCMs <- unlist(projections[which(projections$SiteID == sid),][2:3])
+CF_GCM <- data.frame(CF=CFs,GCM=GCMs,CF_col=cols)
+
+
+dir = paste0(data.dir)
+df = read.csv(paste0(dir,"/Monthly_met.csv"))
+
+tmax = cbind(df[,1:3],df[grep("tmax",  colnames(df))]);names(tmax)[4:7] = gsub("\\..*","",names(tmax[,4:7]))
+tmax.long = gather(tmax, season, var, -c("CF","GCM","Period")); names(tmax.long)[5]="tmax"
+
+tmin = cbind(df[,1:3],df[grep("tmin",  colnames(df))]);names(tmin)[4:7] = gsub("\\..*","",names(tmin[,4:7]))
+tmin.long = gather(tmin, season, var, -c("CF","GCM","Period")); names(tmin.long)[5]="tmin"
+
+DF = merge(tmax.long,tmin.long,by=c("CF","GCM","Period","season"));rm(tmax,tmax.long,tmin,tmin.long)
+
+tmean = cbind(df[,1:3],df[grep("tmean",  colnames(df))]);names(tmean)[4:7] = gsub("\\..*","",names(tmean[,4:7]))
+tmean.long = gather(tmean, season, var, -c("CF","GCM","Period")); names(tmean.long)[5]="tmean"
+
+DF = merge(DF, tmean.long,by=c("CF","GCM","Period","season"));rm(tmean,tmean.long)
+
+pcp = cbind(df[,1:3],df[grep("precip",  colnames(df))]);names(pcp)[4:7] = gsub("\\..*","",names(pcp[,4:7]))
+pcp.long = gather(pcp, season, var, -c("CF","GCM","Period")); names(pcp.long)[5]="pcp"
+
+DF = merge(DF, pcp.long,by=c("CF","GCM","Period","season"));rm(pcp,pcp.long)
+# write.csv(DF, here("DF.csv"))
+
+# factors
+DF$CF = factor(DF$CF) #, levels=CFs)
+DF$GCM = factor(DF$GCM) #, levels=GCMs)
+DF$season <- factor(DF$season) #, levels=c("DJF","MAM","JJA","SON"))
+
+# create delta df ### THIS NEVER GETS USED BECAUSE IT COMPARES TO GCM HIS INSTEAD OF DAYMET
+# df.hist = subset(DF, Period=="Historical" & GCM %in% GCMs)        # Excludes historical rows
+df.hist <- DF %>% filter(GCM == "Daymet")        # Includes historical rows
+df.hist <- rbind(df.hist,df.hist)
+# df.fut = subset(DF, Period=="Future" & GCM %in% GCMs)         # Excludes historical rows
+df.fut <- DF %>% filter(Period == "Future") #! Don't know why this section was in there. Seems wrong #| (GCM == "Daymet" & Period == "Historical"))      # Includes historical rows
+delta = df.fut[,1:4]
+delta[,5:8] = df.fut[,5:8] - df.hist[,5:8]
+# delta <- delta[-c(9:12),] # drops historical rows that subtracted to '0'
+
+
+
+dir = paste0(data.dir)
+
+firstup <- function(x) { # Capitalizes first letter of a string - used in ts plots
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  x
+}
+
+source(here::here("Code", "Plots", "maps_ts_plots_tmean.R"),echo = FALSE)
+source(here::here("Code", "Plots", "maps_ts_plots_pcp.R"),echo = FALSE)
+source(here::here("Code", "Plots", "maps_ts_plots_water.balance.R"),echo = FALSE)
+source(here::here("Code", "Plots", "maps_ts_plots_max.SWE.R"),echo = FALSE)
+source(here::here("Code", "Plots", "maps_ts_plots_soil.temp.R"),echo = FALSE)
+
+
+
+source(here::here("Code", "Plots", "climate-futures-table_v2.R"),echo = FALSE)
