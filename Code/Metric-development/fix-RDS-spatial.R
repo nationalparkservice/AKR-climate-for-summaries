@@ -3,6 +3,7 @@ library(stars);library(dplyr);library(ggplot2);library(ggthemes); library(readxl
 library(ggrepel);library(rlang);library(units)
 
 rm(list=ls())
+SiteID = "YUCH" #Update or loop
 root.dir <- "C:/Users/arunyon/OneDrive - DOI/AKR-CFs/"
 
 projections <- read_excel(paste0("C:/Users/arunyon/OneDrive - DOI/AKR-CFs/", "AKCFs-Projections-used.xlsx"))
@@ -17,7 +18,6 @@ cols <- c("#6EB2D4","#CA0020")
 ###
 ##
 # This is where loop gets starts for parks
-SiteID = "ANIA" #Update or loop
 park <- SiteID
 data.dir <- paste0(root.dir,SiteID,"/Data/") 
 
